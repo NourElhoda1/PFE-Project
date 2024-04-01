@@ -1,31 +1,28 @@
 const mongoose = require('mongoose') ;
 const mongoosePagination = require('mongoose-paginate-v2') ;
 
-const reclamationSchema = new mongoose.Schema({
-    reclamation_description : {
+const reviewSchema = new mongoose.Schema({
+    review_description : {
         type : String ,
-        required : [true , 'the reclamation description is required'] ,
+        required : [true , 'the review description is required'] ,
     } ,
 
-    reclamation_date : {
+    review_date : {
         type : Date ,
-
     } ,
 
     adherent_id : {
         type : mongoose.Schema.Types.ObjectId ,
-        ref : 'Customer' ,
-
+        ref : 'Customer' , 
     } ,
 
     service_id : {
         type : mongoose.Schema.Types.ObjectId ,
         ref : 'Service' ,
-        
     } ,
 
 } , { timestamps : true }) ;
 
-reclamationSchema.plugin(mongoosePagination) ;
-const reclamationModel = mongoose.model('Reclamation' , reclamationSchema) ;
-module.exports = reclamationModel ;
+reviewSchema.plugin(mongoosePagination) ;
+const reviewModel = mongoose.model('Review' , reviewSchema) ;
+module.exports = reviewModel ;
