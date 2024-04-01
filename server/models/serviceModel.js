@@ -10,13 +10,18 @@ const serviceSchema = new mongoose.Schema({
   category_id: {
     type: mongoose.Schema.Types.ObjectId ,
     ref : 'Category' ,
-    required: [true, "the category id is required"] ,
+
   },
 
   subcategory_id: {
     type: mongoose.Schema.Types.ObjectId ,
     ref : 'Subcategory' ,
-    required: [true, "the subcategory id is required"] ,
+
+  },
+
+  title: {
+    type: String,
+    required: true,
   },
 
   price: {

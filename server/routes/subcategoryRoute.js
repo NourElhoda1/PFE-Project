@@ -11,13 +11,7 @@ subcategoryRouter.post(
     body("subcategory_name")
       .trim()
       .notEmpty().withMessage("the subcategory name is required"),
-    body("category_id")
-      .trim()
-      .notEmpty().withMessage('the category is required') ,
-    body("active")
-      .trim()
-      .notEmpty().withMessage('the activation status value is required')
-      .isBoolean().withMessage('the activation status value should be boolean') ,
+
   ],
   subcategoryController.createSubcategory
 );
@@ -38,13 +32,7 @@ subcategoryRouter.put(
     body("subcategory_name")
       .trim()
       .notEmpty().withMessage("the subcategory name is required"),
-    body("category_id")
-      .trim()
-      .notEmpty().withMessage('the category is required') ,
-    body("active")
-      .trim()
-      .notEmpty().withMessage('the activation status value is required')
-      .isBoolean().withMessage('the activation status value should be boolean') ,
+   
   ] , 
   subcategoryController.updateSubcategory
 ) ;

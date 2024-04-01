@@ -7,9 +7,6 @@ const reclamationController = {
 
         const{
             reclamation_description,
-            reclamation_date,
-            adherent_id,
-            service_id,
         } = req.body;
 
         //* Check if there is an error in the Validation
@@ -21,9 +18,6 @@ const reclamationController = {
         try {
             const reclamation = await reclamationModel.create({
                 reclamation_description : reclamation_description ,
-                reclamation_date : reclamation_date ,
-                adherent_id : adherent_id ,
-                service_id : service_id ,
             });
             res.status(200).json({
                 message : 'The reclamation has been created with success' ,

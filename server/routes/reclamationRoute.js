@@ -10,16 +10,7 @@ reclamationRouter.post(
     [
         body("reclamation_description")
             .trim()
-            .notEmpty().withMessage("the reclamation description is required"),
-        body("reclamation_date")
-            .trim()
-            .notEmpty().withMessage("the reclamation date is required"),
-        body("adherent_id")
-            .trim()
-            .notEmpty().withMessage("the adherent id is required"),
-        body("service_id")
-            .trim()
-            .notEmpty().withMessage("the service id is required"),
+            .notEmpty().withMessage("the reclamation description is required") ,
     ],
     reclamationController.createReclamation
 ); 

@@ -8,7 +8,6 @@ const subcategoryController = {
 
         const { 
             subcategory_name, 
-            category_id, 
             active
         } = req.body ;
 
@@ -22,7 +21,6 @@ const subcategoryController = {
             //* Create the new subcategory
             const subcategory = await subcategoryModel.create({
                 subcategory_name : subcategory_name ,
-                category_id : category_id ,
                 active : active , 
             }) ;
 
@@ -125,7 +123,6 @@ const subcategoryController = {
             //* Update the subcategory
             const subcategory = await subcategoryModel.findByIdAndUpdate(id , {
                 subcategory_name : subcategory_name ,
-                category_id : category_id ,
                 active : active ,
             }) ;
 
