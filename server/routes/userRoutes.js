@@ -31,7 +31,7 @@ userRouter.post("/users/register" ,
       .notEmpty()
       .withMessage("the role is required")
       .isIn(['admin', 'manager']),
-      body("email")
+    body("email")
       .trim()
       .notEmpty()
       .withMessage("the email is required")
@@ -72,7 +72,7 @@ userRouter.get("/users/:id" , authUserVerification , userController.getUserById)
 //! Get ur profile
 userRouter.get("/user/profile" , authUserVerification , userController.userProfile) ;
 
-//! Update profile information
+//! Update profile info
 userRouter.put('/user/profile/update/information'
  , authUserVerification , 
  [
@@ -98,6 +98,10 @@ userRouter.put('/user/profile/update/information'
     .withMessage("the email is required")
     .isEmail()
     .withMessage("please enter a valid email"),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("the password is required")
  ] ,
  userController.updateProfileInfo) ;
 

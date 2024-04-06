@@ -3,16 +3,23 @@ const reviewController = require('../controllers/reviewController');
 const reviewRouter = express.Router() ;
 const { body } = require('express-validator') ;
 const authUserVerification = require('../middlewares/authUserVerification') ;
+const adherentVerification = require('../middlewares/adherentVerification') ;
 
 //! Create a new review
 reviewRouter.post(
-    '/reviews' ,
+    '/reviews/add' ,
     [
         body("review_description")
             .trim()
             .notEmpty().withMessage("the review is required") ,
+        body("buyerId")
+            .trim()
+            .notEmpty().withMessage("the buyer's name is required") ,
+        body("serviceId")
+            .trim()
+            .notEmpty().withMessage("the service's name is required")
     ],
-    authUserVerification ,
+    adherentVerification ,
     reviewController.createReview
 ) ; 
 
@@ -24,3 +31,5 @@ reviewRouter.get('/reviews/:id' , reviewController.getReviewById) ;
 
 //! Delete a review
 reviewRouter.delete('/reviews/:id' , authUserVerification , reviewController.deleteReview) ;
+
+module.exports = reviewRouter ;

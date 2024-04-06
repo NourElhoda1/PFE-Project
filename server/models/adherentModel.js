@@ -12,12 +12,6 @@ const adherentSchema = new mongoose.Schema({
         required : [true , 'the last name is required'] ,
     } ,
 
-    user_name : {
-        type : String ,
-        required : [true , 'the username is required'] ,
-        unique : true,
-    },
-    
     email : {
         type : String ,
         unique : true ,
@@ -43,13 +37,18 @@ const adherentSchema = new mongoose.Schema({
         default : true ,
     } ,
 
-    role : {
-        type : String ,
-        default : 'adherent' ,
+    created_at : {
+        type : Date ,
+        default : Date.now ,
+    } ,
+
+    updated_at : {
+        type : Date ,
+        default : Date.now ,    
     }
 
 } , { timestamps : true }) ;
 
 adherentSchema.plugin(mongoosePagination) ;
-const adherentModel = mongoose.model('adherent' , adherentSchema) ;
-module.exports = adherentSchema ;
+const adherentModel = mongoose.model('Adherent' , adherentSchema) ;
+module.exports = adherentModel ;

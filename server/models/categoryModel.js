@@ -10,7 +10,7 @@ const categorySchema = new mongoose.Schema({
     active : {
         type : Boolean ,
         required : [true , 'Category missing'] ,
-    } ,
+    } 
 } , { timestamps : true });
 
 categorySchema.plugin(mongoosePagination) ;

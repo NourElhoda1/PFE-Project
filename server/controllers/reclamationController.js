@@ -7,6 +7,8 @@ const reclamationController = {
 
         const{
             reclamation_description,
+            buyerId,
+            serviceId
         } = req.body;
 
         //* Check if there is an error in the Validation
@@ -18,6 +20,8 @@ const reclamationController = {
         try {
             const reclamation = await reclamationModel.create({
                 reclamation_description : reclamation_description ,
+                buyerId : buyerId ,
+                serviceId : serviceId ,
             });
             res.status(200).json({
                 message : 'The reclamation has been created with success' ,
@@ -68,6 +72,18 @@ const reclamationController = {
                 message : 'The reclamation has been deleted with success' ,
                 reclamation : reclamation , 
             });
+        }
+        catch ( error ) {
+            console.log('Something went wrong' , error);
+            res.status(500).json({ message: 'Something went wrong' });
+        }
+    },
+
+    //! Search for reclamation
+    searchForReclamation : async (req , res) => {
+        try {
+            const reclamation = await reclamationModel.find({ ...req.query });
+            res.status(200).send(reclamation);
         }
         catch ( error ) {
             console.log('Something went wrong' , error);

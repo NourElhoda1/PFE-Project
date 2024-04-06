@@ -7,22 +7,23 @@ const reclamationSchema = new mongoose.Schema({
         required : [true , 'the reclamation description is required'] ,
     } ,
 
-    reclamation_date : {
-        type : Date ,
-
-    } ,
-
-    adherent_id : {
+    buyerId : {
         type : mongoose.Schema.Types.ObjectId ,
-        ref : 'Customer' ,
+        ref : 'Adherent' ,
+        required : true ,
 
     } ,
 
-    service_id : {
+    serviceId : {
         type : mongoose.Schema.Types.ObjectId ,
         ref : 'Service' ,
-        
+        required : true ,
     } ,
+    
+    created_at : {
+        type : Date ,
+        default: Date.now ,
+    } 
 
 } , { timestamps : true }) ;
 
