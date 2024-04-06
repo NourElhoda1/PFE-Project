@@ -8,6 +8,9 @@ const reviewController = {
 
         const{
             review_description,  
+            review_date,
+            buyerId,
+            serviceId
         } = req.body;
 
         //* Check if there is an error in the Validation
@@ -19,6 +22,9 @@ const reviewController = {
         try {
             const review = await reviewModel.create({
                 review_description : review_description ,
+                review_date : review_date ,
+                buyerId : buyerId ,
+                serviceId : serviceId ,
             });
             res.status(200).json({
                 message : 'The review has been created with success' ,
@@ -75,6 +81,26 @@ const reviewController = {
             res.status(500).json({ message: 'Something went wrong' });
         }
     },
+
+    //! Search for reviews
+    searchForReviews : async (req , res) => {
+        try {
+            const reviews = await reviewModel.find({ 
+                $or : [
+                    { review_description : { $regex : req.query.review_description , $options : 'i' } } ,
+                    { review_date : { $regex : req.query.review_date , $options : 'i' } } ,
+                    { adherent_id : { $regex : req.query.adherent_id , $options : 'i' } } ,
+                    { service_id : { $regex : req.query.service_id , $options : 'i' } } ,
+                ]
+            });
+            res.status(200).json(reviews);  
+        }
+        catch ( error ) {
+            console.log('Something went wrong' , error);
+            res.status(500).json({ message: 'Something went wrong' });
+        }
+    },
+    
 
 };      
 

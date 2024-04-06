@@ -2,38 +2,52 @@ const mongoose = require('mongoose') ;
 const mongoosePagination = require('mongoose-paginate-v2') ;
 
 const orderSchema = new mongoose.Schema({
-   serviceId: {
-        type: String,
-        required: true,
+      serviceId: {
+        type: mongoose.Schema.Types.ObjectId ,
+        ref : 'Service' ,
+        required : true,
       },
 
-      title: {
-        type: String,
-        required: true,
+      img: {
+        type: String ,
+        required : true ,
       },
 
       price: {
-        type: Number,
-        required: true,
+        type: Number ,
+        required : true ,
       },
 
       sellerId: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId ,
+        ref : 'Adherent' ,
+        required : true,
       },
 
       buyerId: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId ,
+        ref : 'Adherent' ,
+        required : true,
       },
-      
-      isCompleted: {
-        type: Boolean,
-        default: false,
+
+      status: {
+        type: String ,
+        enum: ['pending', 'accepted', 'completed', 'cancelled'] ,
+        required: true ,
       },
+
+      createdAt: {
+        type: Date ,
+        default: Date.now ,
+      },
+
+      updatedAt: {
+        type: Date ,
+        default: Date.now ,
+      } 
 
     } , { timestamps : true }) ;
 
     orderSchema.plugin(mongoosePagination) ;
     const orderModel = mongoose.model('Order' , orderSchema) ;
-    module.exports = orderSchema ;
+    module.exports = orderModel ;

@@ -7,21 +7,29 @@ const serviceSchema = new mongoose.Schema({
     required: [true, "the name of the service is required"],
   },
       
-  category_id: {
+  categoryId: {
     type: mongoose.Schema.Types.ObjectId ,
     ref : 'Category' ,
+    required: true,
 
   },
 
-  subcategory_id: {
+  subcategoryId: {
     type: mongoose.Schema.Types.ObjectId ,
     ref : 'Subcategory' ,
+    required: true,
 
   },
 
-  title: {
-    type: String,
+  sellerId: {
+    type: mongoose.Schema.Types.ObjectId ,
+    ref : 'Adherent' ,
     required: true,
+  },
+
+  images: {
+    type: Array,
+    required: false,
   },
 
   price: {
@@ -39,7 +47,17 @@ const serviceSchema = new mongoose.Schema({
     required: [true, "a long description of the service is required"] ,
   },
 
-});
+  created_at: {
+    type: Date,
+    default: Date.now ,
+  },
+
+  updated_at: {
+    type: Date,
+    default: Date.now ,
+  }
+
+} , { timestamps : true });
 
 serviceSchema.plugin(mongoosePagination);
 const serviceModel = mongoose.model("Service", serviceSchema);

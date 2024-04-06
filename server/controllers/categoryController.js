@@ -118,18 +118,17 @@ const categoryController = {
 
         //! Search a category
         searchForCategory : async (req , res) => {
-            try{
-                const categories = await categoryModel.paginate(
-                    { category_name : req.query.name }, 
+            try {
+                const category = await categoryModel.paginate(
+                    {category_name : req.query.name} ,
                     { name : req.query.name , page : req.query.page , limit : 100 }
-                );
-                res.status(200).send(categories);
+                ) ;
+                res.status(200).send(category) ;
             }
             catch ( error ) {
-                console.log('Something went wrong' , error);
-                res.status(500).json({ message: 'Something went wrong' });
+                console.log('Something went wrong' , error) ;
             }
-        },
+        } ,
 
     } 
 

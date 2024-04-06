@@ -95,28 +95,31 @@ const userController = {
         }
     },
     
-    //! Search for a user
     searchForUser: async (req, res) => {
-    try {
-        const user = await userModel.paginate({
-            $or: [
-                { first_name: {$regex : req.query.name} },
-                { last_name: {$regex : req.query.name } },
-                { user_name: {$regex : req.query.name } }
-            ]
-        }, { name : req.query.name , limit : 5 });
-  
-        if (user) {
-            res.status(200).json(user);
-        } 
-        else {
-            res.status(401).send("There is no user by this name");
+        try {
+            const user = await userModel.paginate(
+                {
+                    $or: [
+                        { first_name: { $regex: req.query.name } },
+                        { last_name: { $regex: req.query.name } },
+                        { user_name: { $regex: req.query.name } }
+                    ]
+                }, 
+                { page: req.query.page, limit: 5 }
+            );
+    
+            if (user.docs.length > 0) {
+                res.status(200).json(user);
+            } else {
+                res.status(404).send("There is no user by this name");
+            }
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
-    } 
-    catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  },
+    },
+    
+    
+
   
     //! Get a user by ID
     getUserById: async (req , res) => {
@@ -134,7 +137,12 @@ const userController = {
     updateUser: async (req, res) => {
         try {
             const { id } = req.params;
-            const { first_name, last_name, email, user_name, role } = req.body ; 
+            const { 
+                first_name, 
+                last_name, 
+                user_name,
+                email, 
+                role } = req.body ; 
 
             const updatedUser = await userModel.findOne({_id:id}) ;
 
@@ -206,13 +214,14 @@ const userController = {
         }
 
         try {
-            const { first_name , last_name , user_name , email } = req.body ;
+            const { first_name , last_name , user_name , email , password } = req.body ;
             
             const userInformationUpdated = await userModel.findByIdAndUpdate(id.toString() , {
                 first_name : first_name ,
                 last_name : last_name ,
                 user_name : user_name ,
                 email : email ,
+                password : password ,
             } , {new : true}) ;
             
             if ( userInformationUpdated ) {

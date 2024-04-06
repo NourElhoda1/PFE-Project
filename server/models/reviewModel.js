@@ -7,19 +7,22 @@ const reviewSchema = new mongoose.Schema({
         required : [true , 'the review description is required'] ,
     } ,
 
-    review_date : {
-        type : Date ,
-    } ,
-
-    adherent_id : {
+    buyerId : {
         type : mongoose.Schema.Types.ObjectId ,
-        ref : 'Customer' , 
+        ref : 'Adherent' , 
+        required : true ,
     } ,
 
     service_id : {
         type : mongoose.Schema.Types.ObjectId ,
         ref : 'Service' ,
+        required : true ,
     } ,
+
+    created_at : {
+        type : Date ,
+        default: Date.now ,
+    } 
 
 } , { timestamps : true }) ;
 

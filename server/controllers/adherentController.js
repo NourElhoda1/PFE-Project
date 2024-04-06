@@ -54,10 +54,11 @@ const adherentController = {
 
     //! Create a new adherent account
     adherentRegister: async (req, res) => {
-        const {
+
+        const { 
             first_name,
-            last_name,
-            email,
+            last_name, 
+            email, 
             password
         } = req.body;
 
@@ -70,7 +71,7 @@ const adherentController = {
         //* Check if adherent already has an account
         const adherent = await adherentModel.findOne({ email: email });
         if (adherent) {
-            return res.status(400).json({ message: 'The email already exists' });
+            return res.status(400).json({ message: 'An account with this email already exists' });
         }
 
         //* Hash the password
@@ -157,7 +158,14 @@ const adherentController = {
 
     //! Updating the adherent's data
     updateAdherent: async (req, res) => {
-        const { first_name, last_name, email, valid_account, active } = req.body;
+        const { 
+            first_name, 
+            last_name, 
+            email, 
+            password, 
+            valid_account, 
+            active 
+        } = req.body;
         const { id } = req.params;
         try {
             //* Find the adherent that I want to update their data
@@ -209,7 +217,41 @@ const adherentController = {
         } else {
             res.status(400).json('Oops!');
         }
-    }
+    },
+
+     //! Update profile info
+     adherentCanUpdate : async (req , res) => {
+        const id = req.user._id ;
+
+        //* Check is there is any validation problem
+        const errors = validationResult(req) ;
+        if ( !errors.isEmpty() ) {
+            return res.status(403).json(errors) ;
+        }
+
+        try {
+            const { first_name , last_name , email , password } = req.body ;
+            
+            const adherentInformationUpdated = await adherentModel.findByIdAndUpdate(id.toString() , {
+                first_name : first_name ,
+                last_name : last_name ,
+                email : email ,
+                password : password ,
+            } , {new : true}) ;
+            
+            if ( adherentInformationUpdated ) {
+                res.status(200).json({
+                    message : 'Information has been updated with success' ,
+                    newInfo : adherentInformationUpdated ,
+                }) ;
+            }
+
+        }
+        catch ( error ) {
+            res.status(400).json(error) ;
+        }
+    } 
+
     } 
 
     module.exports = adherentController;

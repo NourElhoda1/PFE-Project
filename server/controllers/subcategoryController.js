@@ -7,7 +7,8 @@ const subcategoryController = {
     createSubcategory : async (req , res) => {
 
         const { 
-            subcategory_name, 
+            subcategory_name,
+            categoryId, 
             active
         } = req.body ;
 
@@ -21,6 +22,7 @@ const subcategoryController = {
             //* Create the new subcategory
             const subcategory = await subcategoryModel.create({
                 subcategory_name : subcategory_name ,
+                categoryId : categoryId ,
                 active : active , 
             }) ;
 
@@ -44,7 +46,7 @@ const subcategoryController = {
             var options = {
                 sort : { created_at: -1 } ,
                 lean : true ,
-                populate : 'category_id' ,
+                populate : 'categoryId' ,
                 page : req.query.page  ,
                 limit : 100 ,
             };
@@ -69,7 +71,7 @@ const subcategoryController = {
             var options = {
                 sort : { created_at: -1 } ,
                 lean : true ,
-                populate : 'category_id' ,
+                populate : 'categoryId' ,
                 page : req.query.page  ,
                 limit : 10 ,
             };
@@ -95,11 +97,13 @@ const subcategoryController = {
         const { id } = req.params ;
         try {
             //* Get the subcategory by its id
-            const subcategory = await subcategoryModel.findOne({ _id : id }).populate({path : 'category_id' , select : 'category_name'}) ;
+            const subcategory = await subcategoryModel.findOne({ _id : id }).populate({path : 'categoryId' , select : 'category_name'}) ;
 
             //* show the subcategory
             if ( subcategory ) {
                 return res.status(200).send(subcategory) ;
+            } else {
+                return res.status(404).send("Subcategory not found");
             }
         }
         catch ( error ) {
@@ -123,6 +127,7 @@ const subcategoryController = {
             //* Update the subcategory
             const subcategory = await subcategoryModel.findByIdAndUpdate(id , {
                 subcategory_name : subcategory_name ,
+                categoryId : categoryId ,
                 active : active ,
             }) ;
 

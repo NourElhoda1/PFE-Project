@@ -10,7 +10,13 @@ subcategoryRouter.post(
   [
     body("subcategory_name")
       .trim()
-      .notEmpty().withMessage("the subcategory name is required"),
+      .notEmpty().withMessage("the subcategory's name is required"),
+    body("categoryId")
+      .trim()
+      .notEmpty().withMessage("the category's name is required"),
+    body("active")
+      .trim()
+      .notEmpty().withMessage("the subcategory status is required")
 
   ],
   subcategoryController.createSubcategory
@@ -20,7 +26,7 @@ subcategoryRouter.post(
 subcategoryRouter.get('/subcategories' , authUserVerification , subcategoryController.listingSubcategories) ;
 
 //! Get a subcategory by ID
-subcategoryRouter.get('/subcategories/:id' , authUserVerification , subcategoryController.getSubcategoryById) ;
+subcategoryRouter.get('/subcategory/:id' , authUserVerification , subcategoryController.getSubcategoryById) ;
 
 //! Search for subcategories
 subcategoryRouter.get('/subcategory' , authUserVerification , subcategoryController.searchForSubcategories) ;
@@ -31,7 +37,13 @@ subcategoryRouter.put(
   [
     body("subcategory_name")
       .trim()
-      .notEmpty().withMessage("the subcategory name is required"),
+      .notEmpty().withMessage("the subcategory's name is required"),
+    body("categoryId")
+      .trim()
+      .notEmpty().withMessage("the category's name' is required"),
+    body("active")
+      .trim()
+      .notEmpty().withMessage("the subcategory status is required")
    
   ] , 
   subcategoryController.updateSubcategory
