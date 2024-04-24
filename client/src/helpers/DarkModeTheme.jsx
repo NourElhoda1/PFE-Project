@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { FaMoon } from 'react-icons/fa';
-import { BsSunFill } from 'react-icons/bs';
+import {
+    HiSun,
+    HiMoon,
+  } from "react-icons/hi";
 
 function DarkModeTheme() {
     const [darkMode, setDarkMode] = useState(true);
@@ -26,13 +28,15 @@ function DarkModeTheme() {
     },[darkMode]);
 
   return (
-    <div className='relative w-16 h-8 flex items-center dark:bg-teal-500 bg-gray-400 cursor-pointer rounded-full p-1 '
-    onClick={() => setDarkMode(!darkMode)}>
-       
-        <button onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? <FaMoon /> : <BsSunFill />}
-        </button>
+    <div className="flex items-center">
+    
+    <div
+      className="cursor-pointer"
+      onClick={() => setDarkMode(!darkMode)}
+    >
+      {darkMode ? <HiSun size={20} /> : <HiMoon size={20} />}
     </div>
+  </div>
   )
 }
 
