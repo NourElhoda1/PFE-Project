@@ -61,7 +61,7 @@ userRouter.post(
 ) ;
 
 //! Get all users
-userRouter.get("/users" , authUserVerification , userController.listingUsers) ;
+userRouter.get("/users" ,authUserVerification , userController.listingUsers) ;
 
 //! Search for a user
 userRouter.get("/user" , authUserVerification , userController.searchForUser) ;
@@ -106,7 +106,7 @@ userRouter.put('/user/profile/update/information'
  userController.updateProfileInfo) ;
 
 //! Update the user's data 
-userRouter.put('/users/:id' , authUserVerification , userController.updateUser) ;
+userRouter.put('/users/:id'  , userController.updateUser) ;
 
 //! Block or unblock an user
 userRouter.put('/users/block-unblock/:id' , authUserVerification , userController.blockOrUnblock) ;

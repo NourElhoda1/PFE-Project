@@ -23,7 +23,7 @@ connecToDb();
 
 //! Use middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({origin: 'http://localhost:5173', credentials: true}));
 
 
 //! Use the routes
@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
 
 
 //! Run the server
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
