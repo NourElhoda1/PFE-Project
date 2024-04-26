@@ -22,7 +22,7 @@ function CatgoriesCreate() {
                 }
                 dispatch(createCategory(response.data.docs));
                 console.log(response.data);
-                navigate("/categories");
+                navigate("/categories"); 
             })
             .catch((error) => {
            

@@ -16,6 +16,7 @@ import ProtectedRouter from './ProtectedRouter'
 import UserCreate from '../pages/dashboard/UserCreate'
 import UserUpdate from '../pages/dashboard/UserUpdate'
 import CatgoriesCreate from '../pages/dashboard/CatgoriesCreate'
+import CategoriesUpdate from '../pages/dashboard/CategoriesUpdate'
 
 
 
@@ -32,6 +33,7 @@ const ConfigRouter =createBrowserRouter(
         <Route path='/users/update/:id' element={<UserUpdate />} />
         <Route path='/categories' element={<Categories />} />
         <Route path='/categories/create' element={<CatgoriesCreate />} />
+        <Route path='/categories/update/:id' element={<CategoriesUpdate />} />
         <Route path='/subcategories' element={<Subcategories />} />
         <Route path='/adherents' element={<Adherents />} />
         <Route path='/services' element={<Services />} />

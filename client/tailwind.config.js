@@ -7,6 +7,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: 'class',
+  daisyui: {
+    themes: [ ],
+  },
   theme: {
     extend: {
       colors: {
@@ -19,6 +22,6 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
 

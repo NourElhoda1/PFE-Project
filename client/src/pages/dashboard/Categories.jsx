@@ -16,16 +16,18 @@ function Categories() {
         const response = await AuthAxios.get("http://localhost:8000/v1/categories");
         if (!response.data) {
           console.log("Error fetching categories");
+          return;
         }
 
         dispatch(getAllCategories(response.data.docs));
         console.log(isLoading);
       } catch (err) {
-        console.log(err);
+        console.log("Error fetching catgories:", err);
       }
     };
     fetchData();
-  })
+  }, [dispatch]);
+  
   return (
     <div className='flex' >
     <div>
@@ -48,25 +50,23 @@ function Categories() {
             </tr>
           </thead>
           <tbody>
-            {categories.map((category) => {
-              return (
-                <tr key={category.id}>
-                  <td className="p-3">{category.id}</td>
-                  <td className="p-3">{category.category_name}</td>
-                  <td className="p-3">{category.active ? 'Active' : 'Inactive'}</td>
-                  <td className="p-3">
-                    <div className="flex">
-                    <button className="bg-dark text-white font-bold py-1 px-4 rounded m-3">
-                      Update
-                    </button>
-                    <button className="bg-dark text-white font-bold py-1 px-4 rounded m-3">
-                      block
-                    </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+          {categories.map((category) => (
+            <tr key={category?.id}> 
+              <td className="p-3">{category?.id}</td> 
+              <td className="p-3">{category?.category_name}</td>
+              <td className="p-3">{category?.active ? 'Active' : 'Inactive'}</td>
+              <td className="p-3">
+                <div className="flex">
+                  <Link to={`/categories/update/${category?.id}`} className="bg-dark text-white font-bold py-1 px-4 rounded m-3">
+                    Update
+                  </Link>
+                  <button className="bg-dark text-white font-bold py-1 px-4 rounded m-3">
+                    Block
+                  </button>
+                </div>
+      </td>
+  </tr>
+))}
           </tbody>
         </table>
       ) : (

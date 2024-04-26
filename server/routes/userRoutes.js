@@ -61,20 +61,20 @@ userRouter.post(
 ) ;
 
 //! Get all users
-userRouter.get("/users" ,authUserVerification , userController.listingUsers) ;
+userRouter.get("/users"  , userController.listingUsers) ;
 
 //! Search for a user
 userRouter.get("/user" , authUserVerification , userController.searchForUser) ;
 
 //! Get a user by ID
-userRouter.get("/users/:id" , authUserVerification , userController.getUserById) ;
+userRouter.get("/users/:id"  , userController.getUserById) ;
 
 //! Get ur profile
 userRouter.get("/user/profile" , authUserVerification , userController.userProfile) ;
 
 //! Update profile info
 userRouter.put('/user/profile/update/information'
- , authUserVerification , 
+  , 
  [
   body("first_name")
       .trim()

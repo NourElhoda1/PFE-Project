@@ -18,24 +18,31 @@ const userSlice = createSlice({
       }));
       state.isLoading = false;
     },
+
+    getUserById: (state, action) => {
+      const user = state.users.find((u) => u.id === action.payload);
+      state.currentuser = user;
+    },
     createUser: (state, action) => {
       state.users.push(action.payload);
     },
-    updateUser: (state, action) => {
-      const { id, ...updatedUserData } = action.payload;
-      const index = state.users.findIndex((user) => user.id === id);
-      if (index !== -1) {
-        state.users[index] = {
-          ...state.users[index],
-          ...updatedUserData,
-        };
+    updateUser: (state, action) => {;
+      const index = state.users.findIndex((u) => u.id === action.payload.id);
+      state.users[index] = {
+        id: action.payload.id,
+        first_name: action.payload.first_name,
+        last_name: action.payload.last_name,
+        user_name: action.payload.user_name,
+        email: action.payload.email,
+        role: action.payload.role,
+        password: action.payload.password,
       }
     },
    
   },
 });
 
-export const { getAllUsers, createUser, updateUser } = userSlice.actions;
+export const { getAllUsers, createUser, getUserById, updateUser } = userSlice.actions;
 
 export const isLoadingSelector = (state) => state.user.isLoading;
 export const usersSelector = (state) => state.user.users;

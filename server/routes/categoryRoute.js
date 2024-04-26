@@ -6,7 +6,7 @@ const authUserVerification = require('../middlewares/authUserVerification') ;
 
 //! Create new category
 categoryRouter.post(
-  "/categories/add" , authUserVerification , 
+  "/categories/add"  , 
   [
     body("category_name")
       .trim()
@@ -27,7 +27,7 @@ categoryRouter.get("/categories/:id" , authUserVerification , categoryController
 
 //! Updating the category data
 categoryRouter.put(
-  "/categories/:id" , authUserVerification , 
+  "/categories/:id"  , 
   [
     body("category_name")
       .trim()
@@ -42,7 +42,7 @@ categoryRouter.put(
 );
 
 //! Get all categories
-categoryRouter.get("/categories" , authUserVerification , categoryController.listingCategories);
+categoryRouter.get("/categories"  , categoryController.listingCategories);
 
 //! Delete category
 categoryRouter.delete("/categories/:id" , authUserVerification , categoryController.deleteCategory);

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../../layout/Sidebar'
 import AuthAxios from '../../helpers/request';
-import { updateUser, usersSelector } from '../../app/userSlice';
+import { updateUser, getUserById, usersSelector, isLoadingSelector } from '../../app/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
 
 function UserUpdate() {
+
     const { id } = useParams();
     const users = useSelector(usersSelector);
     const user = users.find(u => u.id === id);
@@ -20,39 +21,36 @@ function UserUpdate() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    
-
-    const fetchData = async () => {
-        try {
-            const response = await AuthAxios.get(`http://localhost:8000/v1/users/${id}`);
-            const userData = response.data;
-            setfirst_name(userData.first_name);
-            setlast_name(userData.last_name);
-            setuser_name(userData.user_name);
-            setrole(userData.role);
-            setemail(userData.email);
-            setpassword(userData.password);
-        } catch (error) {
-            console.log('Error fetching user data:', error);
-        }
-    };
+    const isLoading = useSelector(isLoadingSelector);
 
     useEffect(() => {
-        if (!user) {
-            fetchData();
-        }
-    }, [user]);
+        const fetchData = async () => {
+            try {
+                const response = await AuthAxios.get(`http://localhost:8000/v1/users/${id}`);
+                if (!response.data) {
+                    console.log("Error fetching user");
+                    return;
+                }
+                // Dispatch the action to update the user state with fetched data
+                dispatch(getUserById(response.data));
+            } catch (error) {
+                console.error("Error fetching user:", error.message);
+            }
+        };
+    
+        fetchData();
+    }, [dispatch, id]);
+    
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        AuthAxios.put(`http://localhost:8000/v1/users/${id}`, { first_name, last_name, user_name, email, password, role })
+        AuthAxios.put(`http://localhost:8000/v1/users`+id, { first_name, last_name, user_name, role, email, password })
             .then((response) => {
                 if (!response.data) {
                     console.log('Error updating user');
                 }
-                dispatch(updateUser({ id, first_name, last_name, user_name, email, password, role }));
-                console.log({ first_name, last_name, user_name, email, password, role });
+                dispatch(updateUser({ id, first_name, last_name, user_name, role, email, password }));
+                console.log({ first_name, last_name, user_name, role , email, password});
                 navigate('/users');
             })
             .catch((error) => {
