@@ -2,6 +2,7 @@ const mongoose = require('mongoose') ;
 const mongoosePagination = require('mongoose-paginate-v2') ;
 
 const userSchema = new mongoose.Schema({
+    
     first_name : {
         type : String ,
         required : [true , 'the first name is required'] ,

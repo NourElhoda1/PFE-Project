@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../../layout/Sidebar'
 import AuthAxios from '../../helpers/request';
-import { updateUser, getUserById, usersSelector, isLoadingSelector } from '../../app/userSlice';
+import { 
+    updateUser, 
+    getUserById, 
+    usersSelector, 
+    isLoadingSelector 
+} from '../../app/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
 function UserUpdate() {
@@ -12,49 +18,50 @@ function UserUpdate() {
     const users = useSelector(usersSelector);
     const user = users.find(u => u.id === id);
 
-    const [first_name, setfirst_name] = useState(user?.first_name || '');
-    const [last_name, setlast_name] = useState(user?.last_name || '');
-    const [user_name, setuser_name] = useState(user?.user_name || '');
-    const [role, setrole] = useState(user?.role || '');
-    const [email, setemail] = useState(user?.email || '');
-    const [password, setpassword] = useState(user?.password || '');
+    const [first_name, setfirst_name] = useState(user?.first_name);
+    const [last_name, setlast_name] = useState(user?.last_name);
+    const [user_name, setuser_name] = useState(user?.user_name);
+    const [role, setrole] = useState(user?.role);
+    const [email, setemail] = useState(user?.email);
+    const [password, setpassword] = useState(user?.password);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isLoading = useSelector(isLoadingSelector);
 
-    useEffect(() => {
+    useEffect(() => { 
         const fetchData = async () => {
             try {
-                const response = await AuthAxios.get(`http://localhost:8000/v1/users/${id}`);
+                const response = await AuthAxios.get(`http://localhost:8000/v1/users`);
                 if (!response.data) {
-                    console.log("Error fetching user");
+                    console.error("Error fetching user: userData is null");
                     return;
                 }
-                // Dispatch the action to update the user state with fetched data
-                dispatch(getUserById(response.data));
-            } catch (error) {
-                console.error("Error fetching user:", error.message);
+                dispatch(getUserById(response.data.docs));
+                console.log(id);
+                console.log(isLoading)
+            } catch (err) {
+                console.error("Error fetching user:", err);
             }
         };
     
         fetchData();
-    }, [dispatch, id]);
+    }, [dispatch]);
     
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        AuthAxios.put(`http://localhost:8000/v1/users`+id, { first_name, last_name, user_name, role, email, password })
+        AuthAxios.put(`http://localhost:8000/v1/users/${id}`, { first_name, last_name, user_name, role, email, password })
             .then((response) => {
                 if (!response.data) {
                     console.log('Error updating user');
                 }
                 dispatch(updateUser({ id, first_name, last_name, user_name, role, email, password }));
-                console.log({ first_name, last_name, user_name, role , email, password});
+                console.log({ first_name, last_name, user_name, role, email, password});
                 navigate('/users');
             })
             .catch((error) => {
-                console.error('Error updating user:', error);
+                console.error('Error updating user:', error.message);
             });
     };
 
@@ -65,9 +72,12 @@ function UserUpdate() {
             <div>
                 <Sidebar />
             </div>
-            <div className='m-3'>
-                <h1 className="text-xl text-gray-900 font-semibold"> Update User</h1>
-                <form onSubmit={handleUpdate}>
+            <div className='m-3 flex-1 p-10'>
+                <h1 className="text-2xl text-gray-900 font-semibold"> Update User</h1>
+                <div className="-mx-4 -my-2  overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className=" inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                        <div className="mt-8 overflow-hidden bg-white border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                <form onSubmit={handleUpdate} className='p-5'>
                     <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                         <div className="flex flex-col">
                             <label className="text-gray-700 dark:text-gray-200" htmlFor="first_name">First Name</label>
@@ -156,13 +166,19 @@ function UserUpdate() {
                         </div>
                     </div>
 
-                    <div className="flex justify-end mt-6">
-                        <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Save</button>
+                    <div className="flex justify-end mt-6 space-x-2">
+                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
+                                <Link to="/users" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
+                </div>
+             </div>
         </div>
-    )
-}
 
-export default UserUpdate
+    </div>
+
+  
+);
+}
+export default UserUpdate ;

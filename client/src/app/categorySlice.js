@@ -32,12 +32,26 @@ const categorySlice = createSlice({
                 category_name: action.payload.category_name,
                 active: action.payload.active,
             }
-    },
+        },
 
+        deleteCategorySuccess: (state, action) => {
+            state.categories = state.categories.filter(category => category.id !== action.payload);
+        },
+      
+        deleteCategoryFailure: (state, action) => {
+            state.error = action.payload;
+        },
     },
 });
 
-export const { getAllCategories, createCategory, updateCategory, getCategoryById } = categorySlice.actions;
+export const { 
+    getAllCategories, 
+    getCategoryById,
+    createCategory, 
+    updateCategory, 
+    deleteCategorySuccess,
+    deleteCategoryFailure
+} = categorySlice.actions;
 export const isLoadingSelector = (state) => state.category.isLoading;
 export const categoriesSelector = (state) => state.category.categories;
 export default categorySlice.reducer;

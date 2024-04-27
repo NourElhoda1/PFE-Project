@@ -83,6 +83,20 @@ const Sidebar = () => {
 
           <button
             className="group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md relative"
+            onClick={() => navigate("/adherents")}
+          >
+            <div><TbUser /></div>
+            <h2
+              className={`whitespace-pre duration-500 ${
+                !open && "opacity-0 translate-x-28 overflow-hidden"
+              }`}
+            >
+              Adherents
+            </h2>
+          </button>
+
+          <button
+            className="group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md relative"
             onClick={() => navigate("/categories")}
           >
             <div><BsDiagram2 /></div>
@@ -106,20 +120,6 @@ const Sidebar = () => {
               }`}
             >
               Subcategories
-            </h2>
-          </button>
-
-          <button
-            className="group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md relative"
-            onClick={() => navigate("/adherents")}
-          >
-            <div><TbUser /></div>
-            <h2
-              className={`whitespace-pre duration-500 ${
-                !open && "opacity-0 translate-x-28 overflow-hidden"
-              }`}
-            >
-              Adherents
             </h2>
           </button>
 

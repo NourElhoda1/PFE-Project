@@ -3,9 +3,14 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, R
 import Home from '../pages/interface/Home'
 import Dashboard from '../pages/dashboard/Dashboard'
 import Adherents from '../pages/dashboard/Adherents'
+import AdherentsUpdate from '../pages/dashboard/AdherentsUpdate'
 import Users from '../pages/dashboard/Users'
+import UserCreate from '../pages/dashboard/UserCreate'
+import UserUpdate from '../pages/dashboard/UserUpdate'
 import UserLogin from '../pages/dashboard/UserLogin'
 import Categories from '../pages/dashboard/Categories'
+import CatgoriesCreate from '../pages/dashboard/CatgoriesCreate'
+import CategoriesUpdate from '../pages/dashboard/CategoriesUpdate'
 import Subcategories from '../pages/dashboard/Subcategories'
 import Services from '../pages/dashboard/Services'
 import Orders from '../pages/dashboard/Orders'
@@ -13,10 +18,8 @@ import Reclamations from '../pages/dashboard/Reclamations'
 import ProfileUser from '../pages/dashboard/ProfileUser'
 import PageNotFound from '../pages/PageNotFound'
 import ProtectedRouter from './ProtectedRouter'
-import UserCreate from '../pages/dashboard/UserCreate'
-import UserUpdate from '../pages/dashboard/UserUpdate'
-import CatgoriesCreate from '../pages/dashboard/CatgoriesCreate'
-import CategoriesUpdate from '../pages/dashboard/CategoriesUpdate'
+
+
 
 
 
@@ -36,6 +39,7 @@ const ConfigRouter =createBrowserRouter(
         <Route path='/categories/update/:id' element={<CategoriesUpdate />} />
         <Route path='/subcategories' element={<Subcategories />} />
         <Route path='/adherents' element={<Adherents />} />
+        <Route path='/adherents/update/:id' element={<AdherentsUpdate />} />
         <Route path='/services' element={<Services />} />
         <Route path='orders' element={<Orders />} />
         <Route path='reclamations' element={<Reclamations />} />

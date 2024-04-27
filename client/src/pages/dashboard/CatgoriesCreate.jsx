@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import AuthAxios from '../../helpers/request';
 import { createCategory } from '../../app/categorySlice';
+import { Link } from 'react-router-dom';
 
 function CatgoriesCreate() {
     const [category_name, setcategory_name] = useState("");
@@ -35,14 +36,17 @@ function CatgoriesCreate() {
     };
 
     return (
-        <div className='flex'>
+        <div className='flex bg-gray-300'>
             <div>
                 <Sidebar />
             </div>
-            <div className='m-3'>
+            <div className='m-3 flex-1 p-10'>
                 <h1 className="text-xl text-gray-900 font-semibold">Create Category</h1>
-
-                <form onSubmit={handleSubmit}>
+                <div className="-mx-4 -my-2  overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className=" inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div className="mt-8 overflow-hidden bg-white border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                        <form onSubmit={handleSubmit} className='p-5'>
+           
                     <div className=" gap-6 mt-4 sm:grid-cols-2">
                         <div className="flex flex-col">
                             <label className="text-gray-700 dark:text-gray-200" htmlFor="category_name">Category Name</label>
@@ -61,23 +65,26 @@ function CatgoriesCreate() {
                                 value={active ? 'true' : 'false'}
                                 onChange={(e) => setactive(e.target.value === 'true')}
                             >
+                                <option value="false"></option>
                                 <option value="true">Active</option>
                                 <option value="false">Inactive</option>
                             </select>
                         </div>
                     </div>
-                    <div className="flex justify-end mt-6">
-                        <button
-                            type="submit"
-                            className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                        >
-                            Create
-                        </button>
+                    <div className="flex justify-end mt-6 space-x-2">
+                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
+                                <Link to="/categories" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
+                </div>
+             </div>
         </div>
-    );
+
+    </div>
+
+  
+);
 }
 
 export default CatgoriesCreate;
