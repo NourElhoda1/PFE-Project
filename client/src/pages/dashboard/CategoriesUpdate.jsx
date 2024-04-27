@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import AuthAxios from '../../helpers/request';
 import { updateCategory, isLoadingSelector, categoriesSelector, getCategoryById } from '../../app/categorySlice';
+import { Link } from 'react-router-dom';
 
 function CategoriesUpdate() {
 
@@ -53,14 +54,16 @@ function CategoriesUpdate() {
     };
 
   return (
-    <div className='flex'>
+    <div className='flex bg-gray-300'>
         <div>
             <Sidebar />
         </div>
-        <div className='m-3'>
+        <div className='m-3 flex-1 p-10'>
             <h1 className="text-xl text-gray-900 font-semibold">Update Category</h1>
-
-            <form onSubmit={handleUpdate}>
+            <div className="-mx-4 -my-2  overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className=" inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div className="mt-8 overflow-hidden bg-white border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                        <form onSubmit={handleUpdate} className='p-5'>
                 <div className=" gap-6 mt-4 sm:grid-cols-2">
                     <div className="flex flex-col">
                         <label className="text-gray-700 dark:text-gray-200" htmlFor="category_name">Category Name</label>
@@ -85,18 +88,20 @@ function CategoriesUpdate() {
                         </select>
                     </div>
                 </div>
-                <div className="flex justify-end mt-6">
-                    <button
-                        type="submit"
-                        className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                    >
-                        Update
-                    </button>
+                <div className="flex justify-end mt-6 space-x-2">
+                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
+                                <Link to="/categories" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+             </div>
         </div>
+
     </div>
-  )
+
+  
+);
 }
 
 export default CategoriesUpdate

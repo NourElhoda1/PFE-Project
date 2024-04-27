@@ -14,7 +14,7 @@ const userSlice = createSlice({
         last_name: user.last_name,
         user_name: user.user_name,
         email: user.email,
-        role: user.role,
+        role: user.role
       }));
       state.isLoading = false;
     },
@@ -34,15 +34,28 @@ const userSlice = createSlice({
         last_name: action.payload.last_name,
         user_name: action.payload.user_name,
         email: action.payload.email,
-        role: action.payload.role,
         password: action.payload.password,
+        role: action.payload.role
       }
     },
-   
+    deleteUserSuccess: (state, action) => {
+      state.users = state.users.filter(user => user.id !== action.payload);
+    },
+
+    deleteUserFailure: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { getAllUsers, createUser, getUserById, updateUser } = userSlice.actions;
+export const { 
+  getAllUsers, 
+  createUser, 
+  getUserById, 
+  updateUser, 
+  deleteUserSuccess,
+  deleteUserFailure
+} = userSlice.actions;
 
 export const isLoadingSelector = (state) => state.user.isLoading;
 export const usersSelector = (state) => state.user.users;

@@ -87,7 +87,7 @@ adherentRouter.put('/adhernet/profile/update/information'
  adherentController.adherentCanUpdate) ;
 
 //! Block or unblock a adherent 
-adherentRouter.put("/adherents/block-unblock/:id" , adherentVerification , adherentController.blockOrUnblock) ;
+adherentRouter.put("/adherents/block-unblock/:id"  , adherentController.blockOrUnblock) ;
 
 
 

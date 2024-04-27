@@ -15,7 +15,18 @@ const userController = {
         
         //* checking if the user ia already in the db
         const emailExist = await userModel.findOne({email: req.body.email});
-        if(emailExist) return res.status(400).send('Email already exists');
+        // if(emailExist) return res.status(400).send('Email already exists');
+        if (emailExist) {
+            return res.status(400).json({
+                errors: [{
+                    type: "field",
+                    value: req.body.email,
+                    msg: "Email already exists",
+                    path: "email",
+                    location: "body"
+                }]
+            });
+        }
         
         //* hash passwords
         const salt = await bcrypt.genSalt(10);
@@ -37,11 +48,27 @@ const userController = {
             await user.save();
             res.status(200).json({
                 message : 'The user has been created with success' ,
+                user : user
             });
+        } catch (error) {
+            if (error.code === 11000) {
+                // Duplicate key error
+                return res.status(400).json({
+                    errors: [{
+                        type: 'field',
+                        value: req.body.user_name, // or req.body.email
+                        msg: 'Username or email already exists',
+                        path: 'user_name', // or 'email'
+                        location: 'body',
+                    }],
+                });
+            } else {
+                // Other errors
+                console.error(error);
+                res.status(500).json({ message: 'Internal server error' });
+            }
         }
-        catch ( error ) {
-            console.log( NativeError );
-        }
+
     },
 
     //! Login
@@ -122,14 +149,21 @@ const userController = {
 
   
     //! Get a user by ID
-    getUserById: async (req , res) => {
-        const { id } = req.params ;
-        try {
-            const user = await userModel.findOne({_id : id}) ;
-            res.status(200).json({ user : user }) ;
+    getUserById: async (req, res) => {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ message: 'User ID is missing in the request' });
         }
-        catch ( error ) {
-            res.status(500).json({ message : error.message });
+
+        try {
+            const user = await userModel.findOne({ _id: id });
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            res.status(200).json({ user });
+        } catch (error) {
+            console.error('Something went wrong', error);
+            res.status(500).json({ message: error.message });
         }
     },
 
@@ -236,6 +270,22 @@ const userController = {
             res.status(400).json(error) ;
         }
     } ,
+
+    //! Delete a user
+    deleteUser : async (req , res) => {
+        const { id } = req.params;
+        try {
+            const deleteUser = await userModel.findByIdAndDelete(id);
+            if (!deleteUser) {
+                return res.status(404).json({ message: 'user not found' });
+            }
+            res.status(200).json({ message: 'The user has been deleted with success' });
+        }
+        catch ( error ) {
+            console.log('Something went wrong', error);
+            res.status(500).json({ message: 'Something went wrong' });
+        }
+    },
 };
 
 module.exports = userController;
