@@ -39,17 +39,17 @@ function Users() {
   }, [currentPage]);
 
 
-  const deleteUser = ({ id }) => async dispatch => {
-      try {
-        await AuthAxios.delete(`http://localhost:8000/v1/users/${id}`);
-        dispatch(deleteUserSuccess(id));
-      } catch (error) {
-        dispatch(deleteUserFailure(error.message));
-      }
+  const deleteCategory = ({ id }) => async dispatch => {
+    try {
+      await AuthAxios.delete(`http://localhost:8000/v1/categories/${id}`);
+      dispatch(deleteUserSuccess(id));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
   };
-  
+
   const handleDelete = (id) =>{
-    dispatch(deleteUser({id:id}));
+    dispatch(deleteCategory({id:id}));
   }
 
 

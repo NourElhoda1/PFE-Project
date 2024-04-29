@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const serviceModel = require('../models/serviceModel');
 
+
 const serviceController = {
     //! Create new service
     createService : async (req , res) => {
@@ -33,9 +34,17 @@ const serviceController = {
                 short_description : short_description ,
                 long_description : long_description ,
             });
+
+            const populatedService = await serviceModel
+            .findById(service._id)
+            .populate('categoryId')
+            .populate('subcategoryId')
+            .populate('sellerId')
+            .exec();
+
             res.status(200).json({
                 message : 'The service has been created with success' ,
-                service : service , 
+                service : populatedService , 
             });
         }
         catch ( error ) {
@@ -47,19 +56,17 @@ const serviceController = {
     //! List all the service list
     listingServices: async (req, res) => {
         try {
-          //* Here are my option that i will use to paginate
           var options = {
             sort : { created_at: -1 } ,
             lean : true ,
             populate : ['sellerId' , 'categoryId' , 'subcategoryId'] ,
-            page : req.query.page  ,
+            page : req.query.page || 1 ,
             limit : 100 ,
           };
     
           //* Paginate with populate
           const services = await serviceModel.paginate( {} , options );
     
-          //* Send all services with the name of the category , subcategory and the seller
           if ( services ) {
             res.status(200).send(services);
           }

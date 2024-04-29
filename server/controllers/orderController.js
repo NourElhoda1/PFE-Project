@@ -7,9 +7,8 @@ const orderController = {
 
         const{
             serviceId,
-            sellerId,
             buyerId,
-            status, 
+            status,
         } = req.body;
 
         //* Check if there is an error in the Validation
@@ -21,10 +20,16 @@ const orderController = {
         try {
             const order = await orderModel.create({
                 serviceId : serviceId,
-                sellerId : sellerId,
                 buyerId : buyerId,
                 status : status,
             });
+
+            const populatedService = await orderModel
+            .findById(service._id)
+            .populate('categoryId')
+            .populate('buyerId')
+            .exec();
+
             res.status(200).json({
                 message : 'The order has been created with success' ,
                 order : order , 
@@ -43,7 +48,7 @@ const orderController = {
             var options = {
                 sort : { created_at: -1 } ,
                 lean : true ,
-                populate : ['buyerId' , 'sellerId' , 'serviceId'] ,
+                populate : ['buyerId' , 'serviceId'] ,
                 page : req.query.page  ,
                 limit : 100 ,
             };

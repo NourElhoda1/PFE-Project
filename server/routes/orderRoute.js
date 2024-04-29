@@ -6,10 +6,11 @@ const authUserVerification = require('../middlewares/authUserVerification') ;
 const adherentVerification = require('../middlewares/adherentVerification') ; 
 
 //! Create a new order
-orderRouter.post("/orders/add" , adherentVerification , orderController.createOrder );
+orderRouter.post("/orders/add"  , orderController.createOrder) ;
+
 
 //! List all the orders
-orderRouter.get('/orders' , authUserVerification , orderController.listingOrders) ;
+orderRouter.get('/orders'  , orderController.listingOrders) ;
 
 //! Get a order by ID
 orderRouter.get('/orders/:id' , orderController.getOrderById) ;
