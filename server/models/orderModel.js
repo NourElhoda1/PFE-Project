@@ -8,22 +8,6 @@ const orderSchema = new mongoose.Schema({
         required : true,
       },
 
-      img: {
-        type: String ,
-        required : true ,
-      },
-
-      price: {
-        type: Number ,
-        required : true ,
-      },
-
-      sellerId: {
-        type: mongoose.Schema.Types.ObjectId ,
-        ref : 'Adherent' ,
-        required : true,
-      },
-
       buyerId: {
         type: mongoose.Schema.Types.ObjectId ,
         ref : 'Adherent' ,

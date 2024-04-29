@@ -13,11 +13,13 @@ import CatgoriesCreate from '../pages/dashboard/CatgoriesCreate'
 import CategoriesUpdate from '../pages/dashboard/CategoriesUpdate'
 import Subcategories from '../pages/dashboard/Subcategories'
 import Services from '../pages/dashboard/Services'
+import ServiceDetails from '../pages/dashboard/ServiceDetails'
 import Orders from '../pages/dashboard/Orders'
 import Reclamations from '../pages/dashboard/Reclamations'
 import ProfileUser from '../pages/dashboard/ProfileUser'
 import PageNotFound from '../pages/PageNotFound'
 import ProtectedRouter from './ProtectedRouter'
+
 
 
 
@@ -41,6 +43,7 @@ const ConfigRouter =createBrowserRouter(
         <Route path='/adherents' element={<Adherents />} />
         <Route path='/adherents/update/:id' element={<AdherentsUpdate />} />
         <Route path='/services' element={<Services />} />
+        <Route path='/services/details/:id' element={<ServiceDetails />} />
         <Route path='orders' element={<Orders />} />
         <Route path='reclamations' element={<Reclamations />} />
         <Route path='/profile' element={<ProfileUser />} />
