@@ -40,7 +40,11 @@ const adherentSlice = createSlice({
   },
 });
 
-export const { getAllAdherents, getAdherentById, updateAdherent } = adherentSlice.actions;
+export const { 
+  getAllAdherents, 
+  getAdherentById, 
+  updateAdherent 
+} = adherentSlice.actions;
 export const isLoadingSelector = (state) => state.adherent.isLoading;
 export const adherentsSelector = (state) => state.adherent.adherents;
 export default adherentSlice.reducer;

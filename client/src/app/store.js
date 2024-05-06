@@ -3,6 +3,8 @@ import userReducer from './userSlice';
 import adherentSlice from './adherentSlice';
 import categorySlice from './categorySlice';
 import subcategorySlice from './subcategorySlice';
+import serviceSlice from './serviceSlice';
+import orderSlice from './orderSlice';
 
 
 export const store = configureStore({
@@ -10,8 +12,10 @@ export const store = configureStore({
         user : userReducer,
         adherent : adherentSlice,
         category : categorySlice,
-        subcategory : subcategorySlice
-    },
+        subcategory : subcategorySlice,
+        service : serviceSlice,
+        order : orderSlice
+    }
 });
 
 export default store;

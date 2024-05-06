@@ -26,13 +26,16 @@ const subcategoryController = {
                 active : active , 
             }) ;
 
-            //* Show message of success
-            if ( subcategory ) {
-                return res.status(200).json({
-                    message : 'the subcategory has been created with success' ,
-                    subcategory : subcategory ,
-                }) ;
-            }
+            const populatedSubcategory = await subcategoryModel
+            .findById(subcategory._id)
+            .populate('categoryId')
+            .exec();
+
+            return res.status(200).json({
+                message : 'the subcategory has been created with success' ,
+                subcategory : populatedSubcategory ,
+            }) ;
+
         }
         catch ( error ) {
             console.log( error )
@@ -60,7 +63,7 @@ const subcategoryController = {
             }
         }
         catch ( error ) {
-            console.log( error )
+            console.log("Something went wrong", error);
         }        
     } ,
 
