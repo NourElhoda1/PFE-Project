@@ -12,6 +12,12 @@ const adherentsTable = ({ adherents }) => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { day: 'numeric', month: 'long', year: '2-digit' };
+    return date.toLocaleDateString('en-US', options);
+  };
 
   return (
     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -46,23 +52,23 @@ const adherentsTable = ({ adherents }) => {
                 <tr key={adherent?.id}>
                   <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                     <div className="inline-flex items-center gap-x-3">
-                      <h2 className="text-base font-normal text-gray-900">{adherent?.first_name} {adherent?.last_name}</h2>
+                      <h2 className="text-base font-semibold text-gray-900">{adherent?.first_name} {adherent?.last_name}</h2>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-base text-gray-500 dark:text-gray-300 whitespace-nowrap">{adherent?.email}</td>
-                  <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{adherent?.email}</td>
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">
                   <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${adherent?.active ? 'bg-emerald-100/60' : 'bg-red-100/60'} dark:bg-gray-800`}>
                       <span className={`h-1.5 w-1.5 rounded-full ${adherent?.active ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
                       <h2 className={`text-base font-normal ${adherent?.active ? 'text-emerald-500' : 'text-red-500'}`}>{adherent?.active ? 'Active' : 'Inactive'}</h2>
                   </div>
                   </td>
-                  <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">
                   <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${adherent?.valid_account ? 'bg-emerald-100/60' : 'bg-red-100/60'} dark:bg-gray-800`}>
                       <span className={`h-1.5 w-1.5 rounded-full ${adherent?.valid_account ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
                       <h2 className={`text-base font-normal ${adherent?.valid_account ? 'text-emerald-500' : 'text-red-500'}`}>{adherent?.valid_account ? 'Valid' : 'Invalid'}</h2>
                   </div>
                   </td>
-                  <td className="px-4 py-4 text-base text-gray-500 dark:text-gray-300 whitespace-nowrap">{adherent?.created_at}</td>
+                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{formatDate(adherent?.created_at)}</td>
                   <td className="px-4 py-4 text-base whitespace-nowrap">
                     <div className="flex items-center gap-x-6">
                     <Link to={`/adherents/update/${adherent?.id}`} className="bg-dark text-white  py-1 px-4 rounded m-3">

@@ -4,6 +4,7 @@ import adherentSlice from './adherentSlice';
 import categorySlice from './categorySlice';
 import serviceSlice from './serviceSlice';
 import orderSlice from './orderSlice';
+import reclamationSlice from './reclamationSlice';
 
 
 
@@ -13,7 +14,8 @@ export const store = configureStore({
         adherent : adherentSlice,
         category : categorySlice,
         service : serviceSlice,
-        order : orderSlice
+        order : orderSlice,
+        reclamation : reclamationSlice
     }
 });
 

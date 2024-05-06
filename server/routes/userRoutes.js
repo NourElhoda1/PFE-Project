@@ -112,6 +112,6 @@ userRouter.put('/users/:id'  , userController.updateUser) ;
 userRouter.put('/users/block-unblock/:id' , authUserVerification , userController.blockOrUnblock) ;
 
 //! Delete user
-userRouter.delete("/users/:id" , authUserVerification , userController.deleteUser);
+userRouter.delete("/users/:id"  , userController.deleteUser);
 
 module.exports = userRouter ;

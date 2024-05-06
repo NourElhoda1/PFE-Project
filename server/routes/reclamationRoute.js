@@ -9,6 +9,9 @@ const adherentVerification = require('../middlewares/adherentVerification') ;
 reclamationRouter.post(
     "/reclamations/add" , adherentVerification , 
     [
+        body("reclamation_name")
+            .trim()
+            .notEmpty().withMessage("the reclamation name is required") ,
         body("reclamation_description")
             .trim()
             .notEmpty().withMessage("the reclamation description is required") ,
@@ -23,10 +26,10 @@ reclamationRouter.post(
 ); 
 
 //! List all the reclamations
-reclamationRouter.get('/reclamations' , authUserVerification , reclamationController.listingReclamations) ;
+reclamationRouter.get('/reclamations'  , reclamationController.listingReclamations) ;
 
 //! Get a reclamation by ID
-reclamationRouter.get('/reclamation/:id' , authUserVerification , reclamationController.getReclamationById) ;
+reclamationRouter.get('/reclamation/:id'  , reclamationController.getReclamationById) ;
 
 //! Delete a reclamation
 reclamationRouter.delete('/reclamations/:id' , authUserVerification , reclamationController.deleteReclamation) ;

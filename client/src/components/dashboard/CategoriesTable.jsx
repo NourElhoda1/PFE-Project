@@ -22,9 +22,6 @@ const CategoriesTable = ({ categories, handleDelete }) => {
             <thead className="bg-gray-50 dark:bg-gray-800">
               <tr>
                 <th scope="col" className="py-3.5 px-12 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  #
-                </th>
-                <th scope="col" className="py-3.5 px-4 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   Name
                 </th>
                 <th scope="col" className="px-12 py-3.5 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -41,11 +38,10 @@ const CategoriesTable = ({ categories, handleDelete }) => {
                 <tr key={category?.id}>
                   <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                     <div className="inline-flex items-center gap-x-3">
-                      <h2 className="text-base font-normal text-gray-900">{category?.id}</h2>
+                      <h2 className="text-base font-semibold text-gray-900">{category?.category_name}</h2>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-base text-gray-500 dark:text-gray-300 whitespace-nowrap">{category?.category_name}</td>
-                  <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">
                   <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${category?.active ? 'bg-emerald-100/60' : 'bg-red-100/60'} dark:bg-gray-800`}>
                       <span className={`h-1.5 w-1.5 rounded-full ${category?.active ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
                       <h2 className={`text-base font-normal ${category?.active ? 'text-emerald-500' : 'text-red-500'}`}>{category?.active ? 'Active' : 'Inactive'}</h2>

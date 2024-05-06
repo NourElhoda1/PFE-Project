@@ -38,11 +38,15 @@ const userSlice = createSlice({
         role: action.payload.role
       }
     },
-    deleteUserSuccess: (state, action) => {
+    deleteUserStart(state) {
+      state.loading = true;
+    },
+    deleteUserSuccess(state, action) {
+      state.loading = false;
       state.users = state.users.filter(user => user.id !== action.payload);
     },
-
-    deleteUserFailure: (state, action) => {
+    deleteUserFailure(state, action) {
+      state.loading = false;
       state.error = action.payload;
     },
   },
@@ -53,6 +57,7 @@ export const {
   createUser, 
   getUserById, 
   updateUser, 
+  deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure
 } = userSlice.actions;

@@ -5,6 +5,7 @@ import {
   getAllUsers,
   isLoadingSelector, 
   usersSelector, 
+  deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure
 } from "../../app/userSlice";
@@ -39,17 +40,18 @@ function Users() {
   }, [currentPage]);
 
 
-  const deleteCategory = ({ id }) => async dispatch => {
+  const deleteUser = (userId) => async (dispatch) => {
     try {
-      await AuthAxios.delete(`http://localhost:8000/v1/categories/${id}`);
+      dispatch(deleteUserStart());
+      await AuthAxios.delete(`http://localhost:8000/v1/users/${userId}`); 
       dispatch(deleteUserSuccess(id));
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
     }
   };
-
+  
   const handleDelete = (id) =>{
-    dispatch(deleteCategory({id:id}));
+    dispatch(deleteUser(id));
   }
 
 

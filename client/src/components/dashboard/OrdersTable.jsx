@@ -12,6 +12,12 @@ const OrdersTable = ({ orders }) => {
     setCurrentPage(pageNumber);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { day: 'numeric', month: 'long', year: '2-digit' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
   return (
     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -45,13 +51,13 @@ const OrdersTable = ({ orders }) => {
                 <tr key={order?.id}>
                   <td className="px-8 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                     <div className="inline-flex items-center gap-x-3">
-                      <h2 className="text-base font-normal text-gray-900">{order?.service_name}</h2>
+                      <h2 className="text-base font-semibold text-gray-900">{order?.service_name}</h2>
                     </div>
                   </td>
-                  <td className="px-12 py-4 text-base text-gray-500 dark:text-gray-300 whitespace-nowrap">{order?.first_name} {order?.last_name}</td>
-                  <td className="px-12 py-4 text-base text-gray-500 dark:text-gray-300 whitespace-nowrap">{order?.price}</td>
-                  <td className="px-12 py-4 text-base text-gray-500 dark:text-gray-300 whitespace-nowrap">{order?.status}</td>
-                  <td className="px-4 py-4 text-base text-gray-500 dark:text-gray-300 whitespace-nowrap">{order?.created_at}</td>
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{order?.first_name} {order?.last_name}</td>
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{order?.price}</td>
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{order?.status}</td>
+                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{formatDate(order?.created_at)}</td>
                   <td className="px-4 py-4 text-base whitespace-nowrap">
                     <div className="flex items-center gap-x-6">
                     <Link to={`/services/details/${order?.service?.id}`} className="bg-dark text-white py-1 px-4 rounded m-3">
