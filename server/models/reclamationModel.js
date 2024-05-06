@@ -2,6 +2,12 @@ const mongoose = require('mongoose') ;
 const mongoosePagination = require('mongoose-paginate-v2') ;
 
 const reclamationSchema = new mongoose.Schema({
+
+    reclamation_name : {
+        type : String ,
+        required : [true , 'the reclamation name is required'] ,
+    },
+    
     reclamation_description : {
         type : String ,
         required : [true , 'the reclamation description is required'] ,

@@ -5,6 +5,7 @@ import categorySlice from './categorySlice';
 import subcategorySlice from './subcategorySlice';
 import serviceSlice from './serviceSlice';
 import orderSlice from './orderSlice';
+import reclamationSlice from './reclamationSlice';
 
 
 export const store = configureStore({
@@ -14,7 +15,8 @@ export const store = configureStore({
         category : categorySlice,
         subcategory : subcategorySlice,
         service : serviceSlice,
-        order : orderSlice
+        order : orderSlice,
+        reclamation : reclamationSlice
     }
 });
 

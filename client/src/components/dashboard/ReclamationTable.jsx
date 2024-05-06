@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { MdOutlineMarkAsUnread, MdDelete } from "react-icons/md";
 
-const ServicesTable = ({ services }) => {
+const ReclamationTable = ({ reclamations }) => {
   
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -25,22 +26,16 @@ const ServicesTable = ({ services }) => {
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead className="bg-gray-50 dark:bg-gray-800">
               <tr>
-                <th scope="col" className="py-3.5 px-8 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Name
-                </th>
-                <th scope="col" className="px-4 py-3.5 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Category
-                </th>
                 <th scope="col" className="py-3.5 px-12 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Subcategory
-                </th>
-                <th scope="col" className="py-3.5 px-12 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Seller
-                </th>
-                <th scope="col" className="py-3.5 px-12 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Price
+                  Buyer
                 </th>
                 <th scope="col" className="py-3.5 px-4 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  Title
+                </th>
+                <th scope="col" className="py-3.5 px-4 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                Service
+                </th>
+                <th scope="col" className="px-12 py-3.5 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   Created at
                 </th>
                 <th scope="col" className="relative py-3.5 px-4">
@@ -50,25 +45,28 @@ const ServicesTable = ({ services }) => {
             </thead>
             
             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-              {services.slice(startIndex, endIndex).map((service) => (
-                <tr key={service?.id}>
-                  <td className="px-8 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+              {reclamations.slice(startIndex, endIndex).map((reclamation) => (
+                <tr key={reclamation?.id}>
+                  <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                     <div className="inline-flex items-center gap-x-3">
-                      <h2 className="text-base font-semibold text-gray-900">{service?.service_name}</h2>
+                      <h2 className="text-base font-semibold text-gray-900">{reclamation?.buyer}</h2>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{service?.category_name}</td>
-                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{service?.subcategory_name}</td>
-                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{service?.first_name} {service?.last_name}</td>
-                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{service?.price}</td>
-                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{formatDate(service?.created_at)}</td>
+                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{reclamation?.name}</td>
+                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{reclamation?.service}</td>
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{formatDate(reclamation?.created_at)}</td>
                   <td className="px-4 py-4 text-base whitespace-nowrap">
                     <div className="flex items-center gap-x-6">
-                    <Link to={`/services/details/${service?.id}`} className="bg-dark text-white py-1 px-4 rounded m-3">
-                        <div className="flex items-center gap-x-1">
-                          Details
+                      <Link to={`/reclamations/update/${reclamation?.id}`} className="bg-dark text-white  py-1 px-4 rounded m-3">
+                        <div className="flex  items-center gap-x-1.5">
+                          <MdOutlineMarkAsUnread size={19} /> Read
                         </div>
                       </Link>
+                      {/* <button  className="bg-dark text-white  py-1 px-4 rounded m-3">
+                        <div className="flex  items-center gap-x-1">
+                          <MdDelete size={19} /> Delete
+                        </div>
+                      </button> */}
                     </div>
                   </td>
                 </tr>
@@ -88,7 +86,7 @@ const ServicesTable = ({ services }) => {
             </button>
 
             <div className="flex items-center ml-2">
-            {[...Array(Math.ceil(services.length / itemsPerPage)).keys()].map(
+            {[...Array(Math.ceil(reclamations.length / itemsPerPage)).keys()].map(
               (pageNumber) => (
                 <button
                   key={pageNumber}
@@ -107,7 +105,7 @@ const ServicesTable = ({ services }) => {
 
             <button
               onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === Math.ceil(services.length / itemsPerPage)}
+              disabled={currentPage === Math.ceil(reclamations.length / itemsPerPage)}
               className="flex items-center px-6 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
             >
               Next
@@ -118,4 +116,4 @@ const ServicesTable = ({ services }) => {
   );
 };
 
-export default ServicesTable;
+export default ReclamationTable;

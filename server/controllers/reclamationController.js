@@ -6,9 +6,11 @@ const reclamationController = {
     createReclamation : async (req , res) => {
 
         const{
+            reclamation_name,
             reclamation_description,
             buyerId,
-            serviceId
+            serviceId,
+            created_at
         } = req.body;
 
         //* Check if there is an error in the Validation
@@ -19,13 +21,22 @@ const reclamationController = {
 
         try {
             const reclamation = await reclamationModel.create({
+                reclamation_name : reclamation_name ,
                 reclamation_description : reclamation_description ,
                 buyerId : buyerId ,
                 serviceId : serviceId ,
+                created_at : created_at ,
             });
+
+            const populatedReclamation = await reclamationModel
+            .findById(reclamation._id)
+            .populate('buyerId')
+            .populate('serviceId')
+            .exec();
+
             res.status(200).json({
                 message : 'The reclamation has been created with success' ,
-                reclamation : reclamation , 
+                reclamation : populatedReclamation , 
             });
         }
         catch ( error ) {
@@ -37,17 +48,30 @@ const reclamationController = {
     //! List all the reclamation list
     listingReclamations : async (req , res) => {
         try {
-            //* Paginate the reclamations
-            const reclamations = await reclamationModel.paginate(
-                {}, 
-                { page : req.query.page , limit : 100 }
-            );
-            res.status(200).send(reclamations);
-        }
-        catch ( error ) {
-            console.log('Something went wrong' , error);
-            res.status(500).json({ message: 'Something went wrong' });
-        }
+            //* Here are my option that i will use to paginate
+           var options = {
+               sort : { created_at: -1 } ,
+               lean : true ,
+               populate : ['buyerId' , 'serviceId'] ,
+               page : req.query.page  ,
+               limit : 100 ,
+           };
+
+           //* Paginate with populate
+           const reclamations = await reclamationModel.paginate({} , options) ;   
+           
+           //* Send all subcategories with the name of the category
+           if ( reclamations ) {
+               res.status(200).json(reclamations);
+           }
+     
+       } 
+       catch ( error ) {
+       res.status(403).json({
+           message : 'Something went wrong' ,
+           error : error ,
+       });
+       }
     },
 
     //! Get a reclamation by ID

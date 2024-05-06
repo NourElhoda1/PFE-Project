@@ -16,6 +16,7 @@ import Services from '../pages/dashboard/Services'
 import ServiceDetails from '../pages/dashboard/ServiceDetails'
 import Orders from '../pages/dashboard/Orders'
 import Reclamations from '../pages/dashboard/Reclamations'
+import ReclamationsDetails from '../pages/dashboard/ReclamationsDetails'
 import ProfileUser from '../pages/dashboard/ProfileUser'
 import PageNotFound from '../pages/PageNotFound'
 import ProtectedRouter from './ProtectedRouter'
@@ -46,6 +47,7 @@ const ConfigRouter =createBrowserRouter(
         <Route path='/services/details/:id' element={<ServiceDetails />} />
         <Route path='orders' element={<Orders />} />
         <Route path='reclamations' element={<Reclamations />} />
+        <Route path='/reclamations/update/:id' element={<ReclamationsDetails />} />
         <Route path='/profile' element={<ProfileUser />} />
     </Route>
 
