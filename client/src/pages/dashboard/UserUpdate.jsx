@@ -166,9 +166,9 @@ function UserUpdate() {
                         </div>
                     </div>
 
-                    <div className="flex justify-end mt-6 space-x-2">
-                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
-                                <Link to="/users" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
+                          <div className="flex justify-end mt-6 space-x-2">
+                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
+                                <Link to="/users" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
                             </div>
                         </form>
                     </div>

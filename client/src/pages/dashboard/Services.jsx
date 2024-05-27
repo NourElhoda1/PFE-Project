@@ -42,13 +42,13 @@ function Services() {
     <div>
       <Sidebar />
     </div>
-    <div className='flex-1 p-10'>
+    <div className='flex-1 p-5 pt-10'>
       <h1 className=" text-2xl text-gray-900 font-semibold">All Services</h1>
-      <section className="container px-4 mx-auto">
+      <section className="container px-6 mx-auto">
        
         <div className="flex flex-col">
           {!isLoading ? (
-            <div className="flex flex-col mt-6">
+            <div className="flex flex-col mt-6 pr-20">
               <ServicesTable
                 services={services}
                 currentPage={currentPage}

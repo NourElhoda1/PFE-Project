@@ -19,8 +19,29 @@ const adherentSchema = new mongoose.Schema({
     } ,
 
     password : {
-        type : String , 
+        type : String ,
         required : [true , 'the password is required'] ,
+    } ,
+
+    number : {
+        type : String ,
+        unique : true ,
+        required : [true , 'the number is required'] ,
+    } ,
+
+    Country : {
+        type : String ,
+        required : [true , 'the country is required'] ,
+    } ,
+
+    city : {
+        type : String ,
+        required : [true , 'the city is required'] ,
+    } ,
+
+    postal_code : {
+        type : String ,
+        required : [true , 'the postal code is required'] ,
     } ,
 
     last_login : {
@@ -45,7 +66,11 @@ const adherentSchema = new mongoose.Schema({
     updated_at : {
         type : Date ,
         default : Date.now ,    
-    }
+    },
+
+    avatar : {
+        type : String ,
+    } 
 
 } , { timestamps : true }) ;
 

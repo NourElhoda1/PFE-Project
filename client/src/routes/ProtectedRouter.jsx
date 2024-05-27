@@ -1,25 +1,9 @@
-import { useContext } from "react";
-import { redirect, useLocation } from "react-router";
-import { Navigate, Outlet } from "react-router-dom";
-import { UserContext } from "../providers/UserProvider";
+import React from 'react' ;
+import { Navigate, Outlet } from 'react-router-dom';
 
-const useAuth = () => {
-  const { user } = useContext(UserContext);
+function ProtectedRouter() {
+    const token = localStorage.getItem('token') ;
+    return token ? <Outlet /> : <Navigate to='/users/login' />
+}
 
-  if (!user) redirect('/users/login');
-  
-  return user;
-};
-
-const ProtectedRouter = () => {
-  const location = useLocation();
-  const isAuth = useAuth();
-
-  return isAuth ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/users/login" replace state={{ from: location }} />
-  );
-};
-
-export default ProtectedRouter;
+export default ProtectedRouter ;

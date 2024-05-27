@@ -13,9 +13,14 @@ const adherentSlice = createSlice({
         first_name: adherent.first_name,
         last_name: adherent.last_name,
         email: adherent.email,
+        password: adherent.password,
         created_at: adherent.created_at,
         valid_account: adherent.valid_account,
-        active: adherent.active
+        active: adherent.active,
+        number: adherent.number,
+        country: adherent.country,
+        city: adherent.city,
+        postal_code: adherent.postal_code
       }));
       state.isLoading = false;
     },
@@ -34,7 +39,11 @@ const adherentSlice = createSlice({
         email: action.payload.email,
         password: action.payload.password,
         valid_account: action.payload.valid_account,
-        active: action.payload.active
+        active: action.payload.active,
+        number: action.payload.number,
+        country: action.payload.country,
+        city: action.payload.city,
+        postal_code: action.payload.postal_code
       }
     },
   },

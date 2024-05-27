@@ -36,6 +36,18 @@ adherentRouter.post(
     body("password")
       .trim()
       .notEmpty().withMessage("the password is required") ,
+    body("number")
+      .trim()
+      .notEmpty().withMessage("the number is required") ,
+    body("country")
+      .trim()
+      .notEmpty().withMessage("the country is required") ,
+    body("city")
+      .trim()
+      .notEmpty().withMessage("the city is required") ,
+    body("postal_code")
+      .trim()
+      .notEmpty().withMessage("the postal code is required")
   ],
   adherentController.adherentRegister
 );

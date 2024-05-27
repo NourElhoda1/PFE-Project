@@ -41,7 +41,7 @@ function Adherents() {
       </div>
       <div className="flex-1 p-10">
         <h1 className="text-2xl text-gray-900 font-semibold px-5">All Adherents</h1>
-        <section className="container px-4 mx-auto">
+        <section className="container px-6 mx-auto">
           {/* <div className="flex items-center  mt-6 gap-x-3">
             <Link
               to="/"
@@ -52,7 +52,7 @@ function Adherents() {
           </div> */}
           <div className="flex flex-col">
             {!isLoading ? (
-              <div className="flex flex-col mt-6">
+              <div className="flex flex-col mt-6 pr-16">
                 <AdherentsTable
                   adherents={adherents}
                   currentPage={currentPage}

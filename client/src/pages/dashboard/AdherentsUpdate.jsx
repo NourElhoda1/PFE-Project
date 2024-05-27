@@ -23,6 +23,10 @@ function AdherentsUpdate() {
     const [password, setpassword] = useState(adherent?.password);
     const [valid_account, setvalid_account] = useState(adherent?.valid_account);
     const [active, setactive] = useState(adherent?.active);
+    const [number, setnumber] = useState(adherent?.number);
+    const [country, setcountry] = useState(adherent?.country);
+    const [city, setcity] = useState(adherent?.city);
+    const [postal_code, setpostal_code] = useState(adherent?.postal_code);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -49,13 +53,13 @@ function AdherentsUpdate() {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        AuthAxios.put(`http://localhost:8000/v1/adherents/${id}`, { first_name, last_name, email, password, valid_account, active })
+        AuthAxios.put(`http://localhost:8000/v1/adherents/${id}`, { first_name, last_name, email, password, valid_account, active, number, country, city, postal_code })
             .then((response) => {
                 if (!response.data) {
                     console.log('Error updating adherent');
                 }
-                dispatch(updateAdherent({ id, first_name, last_name, email, password, valid_account, active }));
-                console.log({ id, first_name, last_name, email,password, valid_account, active });
+                dispatch(updateAdherent({ id, first_name, last_name, email, password, valid_account, active, number, country, city, postal_code }));
+                console.log({ id, first_name, last_name, email,password, valid_account, active, number, country, city, postal_code });
                 navigate("/adherents");
             })
             .catch((error) => {
@@ -83,6 +87,7 @@ function AdherentsUpdate() {
                                         id="first_name" 
                                         type="text" 
                                         value={first_name}
+                                        placeholder="Enter your First Name"
                                         className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                                         onChange={(e) => setfirst_name(e.target.value)}
                                     />
@@ -94,8 +99,84 @@ function AdherentsUpdate() {
                                         id="last_name" 
                                         type="text" 
                                         value={last_name}
+                                        placeholder="Enter your Last Name"
                                         className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                                         onChange={(e) => setlast_name(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="Email">Email</label>
+                                    <input 
+                                        id="Email" 
+                                        type="email" 
+                                        value={email}
+                                        placeholder="Enter your Email"
+                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                        onChange={(e) => setemail(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="password">Password</label>
+                                    <input 
+                                        id="password" 
+                                        type="password" 
+                                        value={password}
+                                        placeholder="Enter your password"
+                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                        onChange={(e) => setpassword(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="Number">Number</label>
+                                    <input 
+                                        id="Number" 
+                                        type="tel" 
+                                        value={number}
+                                        placeholder="Enter your phone number" 
+                                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"    
+                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                        onChange={(e) => setnumber(e.target.value)}
+                                    />
+                                </div>
+
+                                
+                                <div className="flex flex-col">
+                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="postal_code">Code Postal</label>
+                                    <input 
+                                        id="postal_code" 
+                                        type="" 
+                                        value={number}
+                                        placeholder="Enter your postal code"
+                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                        onChange={(e) => setpostal_code(e.target.value)}
+                                    />
+                                </div>
+
+
+                                <div className="flex flex-col">
+                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="Country">Country</label>
+                                    <input 
+                                        id="Country" 
+                                        type="text" 
+                                        value={country}
+                                        placeholder="Enter your Country"
+                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                        onChange={(e) => setcountry(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="City">City</label>
+                                    <input 
+                                        id="City" 
+                                        type="text" 
+                                        value={city}
+                                        placeholder="Enter your City"
+                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                        onChange={(e) => setcity(e.target.value)}
                                     />
                                 </div>
 
@@ -125,32 +206,12 @@ function AdherentsUpdate() {
                                     </select>
                                 </div>
                     
-                                <div className="flex flex-col">
-                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="Email">Email</label>
-                                    <input 
-                                        id="Email" 
-                                        type="email" 
-                                        value={email}
-                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                                        onChange={(e) => setemail(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="flex flex-col">
-                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="password">Password</label>
-                                    <input 
-                                        id="password" 
-                                        type="password" 
-                                        value={password}
-                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                                        onChange={(e) => setpassword(e.target.value)}
-                                    />
-                                </div>
+                                
                             </div>
 
                             <div className="flex justify-end mt-6 space-x-2">
-                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
-                                <Link to="/adherents" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
+                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
+                                <Link to="/adherents" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
                             </div>
                         </form>
                     </div>

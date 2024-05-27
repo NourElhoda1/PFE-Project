@@ -56,17 +56,17 @@ function Categories() {
       <div>
         <Sidebar />
       </div>
-      <div className="flex-1 p-10">
+      <div className="flex-1  p-5 pt-6">
         <h1 className="text-2xl text-gray-900 font-semibold px-5">All Categories</h1>
-        <section className="container px-4 mx-auto">
-          <div className="flex items-center  mt-6 gap-x-3">
-            <Link to="/categories/create" className="bg-dark text-white font-bold py-1 px-5 rounded m-3">
+        <section className="container px-6 mx-auto">
+          <div className="flex items-center  mt-3 gap-x-3">
+            <Link to="/categories/create" className="bg-primary text-white font-bold py-1 px-5 rounded m-3">
               + Add
             </Link>
           </div>
           <div className="flex flex-col">
             {!isLoading ? (
-              <div className="flex flex-col mt-6">
+              <div className="flex flex-col mt-3 pr-16">
                 <CategoriesTable 
                   categories={categories}
                   handleDelete={handleDelete}

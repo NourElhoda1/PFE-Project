@@ -7,6 +7,7 @@ import { createCategory } from '../../app/categorySlice';
 import { Link } from 'react-router-dom';
 
 function CatgoriesCreate() {
+    
     const [category_name, setcategory_name] = useState("");
     const [active, setactive] = useState(false);
 
@@ -72,8 +73,8 @@ function CatgoriesCreate() {
                         </div>
                     </div>
                     <div className="flex justify-end mt-6 space-x-2">
-                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
-                                <Link to="/categories" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-dark rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
+                                <button className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none focus:bg-gray-600">Save</button>
+                                <Link to="/categories" className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md  focus:outline-none focus:bg-gray-600">Cancel</Link>
                             </div>
                         </form>
                     </div>
