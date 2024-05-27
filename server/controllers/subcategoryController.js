@@ -50,7 +50,7 @@ const subcategoryController = {
                 sort : { created_at: -1 } ,
                 lean : true ,
                 populate : 'categoryId' ,
-                page : req.query.page  ,
+                page: req.query.page || 1,
                 limit : 100 ,
             };
 
@@ -64,6 +64,7 @@ const subcategoryController = {
         }
         catch ( error ) {
             console.log("Something went wrong", error);
+            return res.status(500).json({ error: "Internal Server Error" });
         }        
     } ,
 

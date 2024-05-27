@@ -15,10 +15,11 @@ export default {
       colors: {
         'dark': '#0e0e0e',
         'light': '#f8fafc',
-        'primary': '#108a00',
+        'primary': '#00362e',
         'secondary': '#13544e',
         'success': '#4ade80',
         'warning': '#be0013',
+        'info': '#b8f9cf',
       }
     },
   },

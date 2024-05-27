@@ -74,7 +74,7 @@ userRouter.get("/user/profile" , authUserVerification , userController.userProfi
 
 //! Update profile info
 userRouter.put('/user/profile/update/information'
-  , 
+  , authUserVerification,
  [
   body("first_name")
       .trim()

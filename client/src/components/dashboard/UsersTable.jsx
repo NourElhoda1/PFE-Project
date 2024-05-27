@@ -56,16 +56,16 @@ const UsersTable = ({ users, handleDelete }) => {
                     </div>
                   </td>
                   <td className="px-4 py-4 text-base whitespace-nowrap"><div className="flex items-center gap-x-6">
-                      <Link to={`/users/update/${user?.id}`} className="bg-dark text-white  py-1 px-4 rounded m-3">
+                      <Link to={`/users/update/${user?.id}`} className="bg-primary text-white  py-1 px-4 rounded m-3">
                         <div className="flex  items-center gap-x-1">
                           <LiaEdit size={19} /> Edit
                         </div>
                       </Link>
-                      <button onClick={() => handleDelete(user.id)} className="bg-dark text-white  py-1 px-4 rounded m-3">
+                      {/* <button onClick={() => handleDelete(user.id)} className="bg-primary text-white  py-1 px-4 rounded m-3">
                         <div className="flex  items-center gap-x-1">
                           <MdDelete size={19} /> Delete
                         </div>
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>

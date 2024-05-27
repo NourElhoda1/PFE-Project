@@ -1,25 +1,21 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { MdOutlineMarkAsUnread, MdDelete } from "react-icons/md";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { LiaEdit } from 'react-icons/lia';
+import { MdDelete } from 'react-icons/md';
 
-const ReclamationTable = ({ reclamations }) => {
-  
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+const SubcategoriesTable = ({ subcategories, handleDelete }) => {
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = { day: 'numeric', month: 'long', year: '2-digit' };
-    return date.toLocaleDateString('en-US', options);
-  };
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
 
   return (
+    
     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
         <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -27,16 +23,13 @@ const ReclamationTable = ({ reclamations }) => {
             <thead className="bg-gray-50 dark:bg-gray-800">
               <tr>
                 <th scope="col" className="py-3.5 px-12 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Buyer
+                  Name
                 </th>
-                <th scope="col" className="py-3.5 px-4 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Title
-                </th>
-                <th scope="col" className="py-3.5 px-4 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                Service
+                <th scope="col" className="py-3.5 px-12 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  Category
                 </th>
                 <th scope="col" className="px-12 py-3.5 text-base font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  Created at
+                  Status
                 </th>
                 <th scope="col" className="relative py-3.5 px-4">
                   <span className="sr-only">Edit</span>
@@ -45,24 +38,28 @@ const ReclamationTable = ({ reclamations }) => {
             </thead>
             
             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-              {reclamations.slice(startIndex, endIndex).map((reclamation) => (
-                <tr key={reclamation?.id}>
+              {subcategories.slice(startIndex, endIndex).map((subcategory) => (
+                <tr key={subcategory?.id}>
                   <td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                     <div className="inline-flex items-center gap-x-3">
-                      <h2 className="text-base font-semibold text-gray-900">{reclamation?.buyer}</h2>
+                      <h2 className="text-base font-semibold text-gray-900">{subcategory?.subcategory_name}</h2>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{reclamation?.name}</td>
-                  <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{reclamation?.service}</td>
-                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{formatDate(reclamation?.created_at)}</td>
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{subcategory?.category_name}</td>
+                  <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">
+                  <div className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${subcategory?.active ? 'bg-emerald-100/60' : 'bg-red-100/60'} dark:bg-gray-800`}>
+                      <span className={`h-1.5 w-1.5 rounded-full ${subcategory?.active ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
+                      <h2 className={`text-base font-normal ${subcategory?.active ? 'text-emerald-500' : 'text-red-500'}`}>{subcategory?.active ? 'Active' : 'Inactive'}</h2>
+                  </div>
+                  </td>
                   <td className="px-4 py-4 text-base whitespace-nowrap">
                     <div className="flex items-center gap-x-6">
-                      <Link to={`/reclamations/update/${reclamation?.id}`} className="bg-primary text-white  py-1 px-4 rounded m-3">
-                        <div className="flex  items-center gap-x-1.5">
-                          <MdOutlineMarkAsUnread size={19} /> Read
+                      <Link to={`/subcategories/update/${subcategory?.id}`} className="bg-primary text-white  py-1 px-4 rounded m-3">
+                        <div className="flex  items-center gap-x-1">
+                          <LiaEdit size={19} /> Edit
                         </div>
                       </Link>
-                      {/* <button  className="bg-dark text-white  py-1 px-4 rounded m-3">
+                      {/* <button onClick={() => handleDelete(subcategory.id)} className="bg-dark text-white  py-1 px-4 rounded m-3">
                         <div className="flex  items-center gap-x-1">
                           <MdDelete size={19} /> Delete
                         </div>
@@ -86,7 +83,7 @@ const ReclamationTable = ({ reclamations }) => {
             </button>
 
             <div className="flex items-center ml-2">
-            {[...Array(Math.ceil(reclamations.length / itemsPerPage)).keys()].map(
+            {[...Array(Math.ceil(subcategories.length / itemsPerPage)).keys()].map(
               (pageNumber) => (
                 <button
                   key={pageNumber}
@@ -105,7 +102,7 @@ const ReclamationTable = ({ reclamations }) => {
 
             <button
               onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === Math.ceil(reclamations.length / itemsPerPage)}
+              disabled={currentPage === Math.ceil(subcategories.length / itemsPerPage)}
               className="flex items-center px-6 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
             >
               Next
@@ -113,7 +110,7 @@ const ReclamationTable = ({ reclamations }) => {
             </div> 
           </div>
     </div>
-  );
-};
+  )
+}
 
-export default ReclamationTable;
+export default SubcategoriesTable

@@ -15,7 +15,6 @@ const userController = {
         
         //* checking if the user ia already in the db
         const emailExist = await userModel.findOne({email: req.body.email});
-        // if(emailExist) return res.status(400).send('Email already exists');
         if (emailExist) {
             return res.status(400).json({
                 errors: [{
@@ -56,14 +55,13 @@ const userController = {
                 return res.status(400).json({
                     errors: [{
                         type: 'field',
-                        value: req.body.user_name, // or req.body.email
+                        value: req.body.user_name, 
                         msg: 'Username or email already exists',
-                        path: 'user_name', // or 'email'
+                        path: 'user_name', 
                         location: 'body',
                     }],
                 });
             } else {
-                // Other errors
                 console.error(error);
                 res.status(500).json({ message: 'Internal server error' });
             }
@@ -89,7 +87,7 @@ const userController = {
                 const isValidPassword = await bcrypt.compare(password, user.password) ;
 
                 if ( isValidPassword ) {
-                    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+                    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "90d" });
 
                     if ( token ) {
                         res.status(200).json({ user : user , token : token })
@@ -225,17 +223,33 @@ const userController = {
     } ,
 
     //! User Profile
-    userProfile : async (req , res) => {
-        const id = req.user._id
-        const user = await userModel.findById(id) ;
-
-        if ( user ) {
-            res.status(200).json(user) ;
+    userProfile : async (req, res) => {
+        try {
+            // Ensure that user information is available in the request object
+            if (!req.user) {
+                return res.status(401).json({ message: 'User authentication failed' });
+            }
+    
+            // Access the user ID from the authenticated user
+            const userId = req.user._id;
+    
+            // Retrieve the user profile using the user ID
+            const user = await userModel.findById(userId);
+    
+            if (user) {
+                // Return the user profile if found
+                return res.status(200).json(user);
+            } else {
+                // Handle the case where the user profile is not found
+                return res.status(404).json({ message: 'User profile not found' });
+            }
+        } catch (error) {
+            // Handle any errors that occur during the process
+            console.error('Error fetching user profile:', error);
+            return res.status(500).json({ message: 'Internal server error' });
         }
-        else {
-            res.status(400).json('oops !') ;
-        }
-    } ,
+    },
+    
 
     //! Update profile info
     updateProfileInfo : async (req , res) => {

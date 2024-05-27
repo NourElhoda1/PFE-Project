@@ -23,7 +23,7 @@ subcategoryRouter.post(
 );
 
 //! List all the subcategories 
-subcategoryRouter.get('/subcategories' , authUserVerification , subcategoryController.listingSubcategories) ;
+subcategoryRouter.get('/subcategories'  , subcategoryController.listingSubcategories) ;
 
 //! Get a subcategory by ID
 subcategoryRouter.get('/subcategory/:id' , authUserVerification , subcategoryController.getSubcategoryById) ;
@@ -33,7 +33,7 @@ subcategoryRouter.get('/subcategory' , authUserVerification , subcategoryControl
 
 //! Update the subcategory data
 subcategoryRouter.put(
-  '/subcategories/:id' , authUserVerification , 
+  '/subcategories/:id' , 
   [
     body("subcategory_name")
       .trim()

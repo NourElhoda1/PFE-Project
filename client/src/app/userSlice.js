@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
 
 const userSlice = createSlice({
   name: 'users',
@@ -7,6 +8,12 @@ const userSlice = createSlice({
     isLoading: true,
   },
   reducers: {
+
+    refreshUser : (state , action) => {
+      const index = state.users.findIndex(user => user._id === action.payload._id) ;
+      state.users[index] = action.payload ;
+    },
+
     getAllUsers: (state, action) => {
       state.users = action.payload.map((user) => ({
         id: user._id,
@@ -23,9 +30,11 @@ const userSlice = createSlice({
       const user = state.users.find((u) => u.id === action.payload);
       state.currentuser = user;
     },
+
     createUser: (state, action) => {
       state.users.push(action.payload);
-    },
+    }, 
+
     updateUser: (state, action) => {;
       const index = state.users.findIndex((u) => u.id === action.payload.id);
       state.users[index] = {
@@ -38,31 +47,30 @@ const userSlice = createSlice({
         role: action.payload.role
       }
     },
-    deleteUserStart(state) {
-      state.loading = true;
+    
+    updateUserInfo: (state, action) => {
+      const index = state.users.findIndex((u) => u.id === action.payload.id);
+      state.users[index] = action.payload;
     },
-    deleteUserSuccess(state, action) {
-      state.loading = false;
-      state.users = state.users.filter(user => user.id !== action.payload);
-    },
-    deleteUserFailure(state, action) {
-      state.loading = false;
-      state.error = action.payload;
-    },
+
+   
+
+
   },
+  
 });
 
 export const { 
+  refreshUser,
   getAllUsers, 
   createUser, 
   getUserById, 
-  updateUser, 
-  deleteUserStart,
-  deleteUserSuccess,
-  deleteUserFailure
+  updateUser,
+  updateUserInfo
 } = userSlice.actions;
 
 export const isLoadingSelector = (state) => state.user.isLoading;
 export const usersSelector = (state) => state.user.users;
+export const errorSelector = (state) => state.user.error;
 
 export default userSlice.reducer;

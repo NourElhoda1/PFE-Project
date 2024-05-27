@@ -59,7 +59,11 @@ const adherentController = {
             first_name,
             last_name, 
             email, 
-            password
+            password,
+            number,
+            country,
+            city,
+            postal_code
         } = req.body;
 
         //* Check if there are any validation problems
@@ -85,6 +89,10 @@ const adherentController = {
                 last_name: last_name,
                 email: email,
                 password: hashedPassword,
+                number: number,
+                country: country,
+                city: city,
+                postal_code: postal_code
             });
             res.status(200).json({
                 message: 'Adherent created successfully',
@@ -164,7 +172,11 @@ const adherentController = {
             email, 
             password, 
             valid_account, 
-            active 
+            active ,
+            number,
+            country,
+            city,
+            postal_code
         } = req.body;
         const { id } = req.params;
         try {
@@ -176,7 +188,12 @@ const adherentController = {
                 last_name: last_name,
                 email: email,
                 password: adherentWantToUpdate.password,
+                valid_account: valid_account,
                 active: active,
+                number: number,
+                country: country,
+                city: city,
+                postal_code: postal_code
             });
             res.status(200).json({ message: 'The adherent data has been updated with success' });
         } catch (error) {
@@ -230,13 +247,17 @@ const adherentController = {
         }
 
         try {
-            const { first_name , last_name , email , password } = req.body ;
+            const { first_name , last_name , email , password , number , country , city , postal_code} = req.body ;
             
             const adherentInformationUpdated = await adherentModel.findByIdAndUpdate(id.toString() , {
                 first_name : first_name ,
                 last_name : last_name ,
                 email : email ,
                 password : password ,
+                number : number ,
+                country : country ,
+                city : city ,
+                postal_code : postal_code
             } , {new : true}) ;
             
             if ( adherentInformationUpdated ) {

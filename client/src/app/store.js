@@ -1,22 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './userSlice';
-import adherentSlice from './adherentSlice';
-import categorySlice from './categorySlice';
-import subcategorySlice from './subcategorySlice';
-import serviceSlice from './serviceSlice';
-import orderSlice from './orderSlice';
-import reclamationSlice from './reclamationSlice';
+import adherentReducer from './adherentSlice';
+import categoryReducer from './categorySlice';
+import subcategoryReducer from './subcategorySlice';
+import serviceReducer from './serviceSlice';
+import orderReducer from './orderSlice';
+import reclamationReducer from './reclamationSlice';
+
 
 
 export const store = configureStore({
     reducer: {
         user : userReducer,
-        adherent : adherentSlice,
-        category : categorySlice,
-        subcategory : subcategorySlice,
-        service : serviceSlice,
-        order : orderSlice,
-        reclamation : reclamationSlice
+        adherent : adherentReducer,
+        category : categoryReducer,
+        subcategory : subcategoryReducer,
+        service : serviceReducer,
+        order : orderReducer,
+        reclamation : reclamationReducer
     }
 });
 
