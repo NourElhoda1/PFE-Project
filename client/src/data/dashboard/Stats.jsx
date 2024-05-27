@@ -6,7 +6,7 @@ const Stats = [
 
   {
     title: "Today's Adherents",
-    amount: "2,300",
+    amount: "200",
     change: "+3%",
     changeType: "positive",
     icon: <TbUser size={27}/>,
@@ -15,7 +15,7 @@ const Stats = [
 
   {
     title: "Categories",
-    amount: "2",
+    amount: "8",
     icon: <BsDiagram2 size={27}/>,
     path: "/categories",
   },
@@ -29,7 +29,7 @@ const Stats = [
 
   {
     title: "Services",
-    amount: "+3,462",
+    amount: "+355",
     change: "+2%",
     changeType: "positive",
     icon: <TbUser size={27}/>,
@@ -38,7 +38,7 @@ const Stats = [
 
   {
     title: "Orders",
-    amount: "+3,462",
+    amount: "+159",
     change: "+2%",
     changeType: "positive",
     icon: <TbUser size={27}/>,

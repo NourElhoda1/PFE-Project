@@ -68,7 +68,7 @@ function UserUpdateInfo({ handleTabClick }) {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
           <div className="flex flex-col">
-            <label className="text-gray-700 text-sm font-bold mb-2" htmlFor="first_name">
+            <label className="text-gray-700  mb-2" htmlFor="first_name">
               First Name
             </label>
             <input
@@ -82,7 +82,7 @@ function UserUpdateInfo({ handleTabClick }) {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 text-sm font-bold mb-2" htmlFor="last_name">
+            <label className="text-gray-700  mb-2" htmlFor="last_name">
               Last Name
             </label>
             <input
@@ -96,7 +96,7 @@ function UserUpdateInfo({ handleTabClick }) {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 text-sm font-bold mb-2" htmlFor="user_name">
+            <label className="text-gray-700 mb-2" htmlFor="user_name">
               User Name
             </label>
             <input
@@ -110,7 +110,7 @@ function UserUpdateInfo({ handleTabClick }) {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            <label className="text-gray-700  mb-2" htmlFor="email">
               Email
             </label>
             <input

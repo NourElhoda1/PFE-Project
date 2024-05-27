@@ -13,10 +13,10 @@ const orderSlice = createSlice({
                 service_name: order.serviceId.service_name,
                 first_name: order.buyerId.first_name,
                 last_name: order.buyerId.last_name,
-                price: order.price,
+                price: order.serviceId.price,
                 status: order.status,
                 images: order.images,
-                created_at: order.created_at,
+                created_at: order.createdAt,
             }));
             state.isLoading = false;
         },

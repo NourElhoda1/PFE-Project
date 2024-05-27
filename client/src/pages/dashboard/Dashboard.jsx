@@ -45,11 +45,11 @@ const Dashboard = () => {
       <div>
         <Sidebar />
       </div>
-      <div className='flex-1 p-5 pt-10 overflow-auto'>
+      <div className='flex-1 p-5 ml-6 pt-10 overflow-auto'>
         <h1 className="text-2xl text-gray-900 font-semibold mb-5">Dashboard</h1>
         <section className='container px-2 mx-auto'>
 
-          <div className="flex items-center mt-6 gap-x-3">
+          <div className="flex items-center  mt-6 gap-x-3">
             <DashboardStats />
           </div>
 
@@ -62,19 +62,19 @@ const Dashboard = () => {
               <div className="flex justify-around mt-4">
                 <div className="text-center">
                   <p className="text-sm text-gray-500">Adherents</p>
-                  <p className="text-lg font-semibold">36K</p>
+                  <p className="text-lg font-semibold">200</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-500">Services</p>
-                  <p className="text-lg font-semibold">1k</p>
+                  <p className="text-lg font-semibold">355</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-500">Orders</p>
-                  <p className="text-lg font-semibold">43</p>
+                  <p className="text-lg font-semibold">159</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-500">Reclamations</p>
-                  <p className="text-lg font-semibold">4</p>
+                  <p className="text-lg font-semibold">1</p>
                 </div>
               </div>
             </div>

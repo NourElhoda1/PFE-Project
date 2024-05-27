@@ -25,8 +25,8 @@ const orderController = {
             });
 
             const populatedService = await orderModel
-            .findById(service._id)
-            .populate('categoryId')
+            .findById(order._id)
+            .populate('serviceId')
             .populate('buyerId')
             .exec();
 
