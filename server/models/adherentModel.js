@@ -29,7 +29,7 @@ const adherentSchema = new mongoose.Schema({
         required : [true , 'the number is required'] ,
     } ,
 
-    Country : {
+    country : {
         type : String ,
         required : [true , 'the country is required'] ,
     } ,
