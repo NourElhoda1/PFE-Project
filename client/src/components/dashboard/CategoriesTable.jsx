@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LiaEdit } from "react-icons/lia";
 import { MdDelete } from "react-icons/md";
 
-const CategoriesTable = ({ categories, handleDelete }) => {
+const CategoriesTable = ({ categories }) => {
   
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -54,11 +54,11 @@ const CategoriesTable = ({ categories, handleDelete }) => {
                           <LiaEdit size={19} /> Edit
                         </div>
                       </Link>
-                      <button onClick={() => handleDelete(category.id)} className="bg-primary text-white  py-1 px-4 rounded m-3">
+                      {/* <button onClick={() => handleDelete(category.id)} className="bg-primary text-white  py-1 px-4 rounded m-3">
                         <div className="flex  items-center gap-x-1">
                           <MdDelete size={19} /> Delete
                         </div>
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>

@@ -5,8 +5,8 @@ import {
   getAllCategories, 
   isLoadingSelector, 
   categoriesSelector, 
-  deleteCategorySuccess,
-  deleteCategoryFailure 
+  // deleteCategorySuccess,
+  // deleteCategoryFailure 
 } from '../../app/categorySlice';
 import AuthAxios from '../../helpers/request';
 import { Link } from 'react-router-dom';
@@ -38,18 +38,18 @@ function Categories() {
     };
     fetchData();
   }, [dispatch, currentPage]);
-  const deleteCategory = ({ id }) => async dispatch => {
-    try {
-      await AuthAxios.delete(`http://localhost:8000/v1/categories/${id}`);
-      dispatch(deleteCategorySuccess(id));
-    } catch (error) {
-      dispatch(deleteCategoryFailure(error.message));
-    }
-  };
+  // const deleteCategory = ({ id }) => async dispatch => {
+  //   try {
+  //     await AuthAxios.delete(`http://localhost:8000/v1/categories/${id}`);
+  //     dispatch(deleteCategorySuccess(id));
+  //   } catch (error) {
+  //     dispatch(deleteCategoryFailure(error.message));
+  //   }
+  // };
 
-  const handleDelete = (id) =>{
-    dispatch(deleteCategory({id:id}));
-  }
+  // const handleDelete = (id) =>{
+  //   dispatch(deleteCategory({id:id}));
+  // }
   
   return (
     <div className="flex bg-gray-300">
@@ -69,7 +69,6 @@ function Categories() {
               <div className="flex flex-col mt-3 pr-16">
                 <CategoriesTable 
                   categories={categories}
-                  handleDelete={handleDelete}
                   currentPage={currentPage} 
                   itemsPerPage={itemsPerPage} 
                 />
