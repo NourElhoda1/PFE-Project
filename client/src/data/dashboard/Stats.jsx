@@ -15,14 +15,14 @@ const Stats = [
 
   {
     title: "Categories",
-    amount: "8",
+    amount: "10",
     icon: <BsDiagram2 size={27}/>,
     path: "/categories",
   },
 
   {
     title: "Subcategories",
-    amount: "2",
+    amount: "44",
     icon: <BsDiagram3 size={27}/>,
     path: "/subcategories",
   },
