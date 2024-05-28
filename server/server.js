@@ -1,4 +1,4 @@
-require("dotenv").config();
+require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
@@ -24,31 +24,31 @@ app.use(express.json());
 
 //! CORS configuration
 const corsOptions = {
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
 
 //! Use the routes
-app.use("/v1", userRouter);
-app.use("/v1", adherentRouter);
-app.use("/v1", categoryRouter);
-app.use("/v1", subcategoryRouter);
-app.use("/v1", orderRouter);
-app.use("/v1", reviewRouter);
-app.use("/v1", reclamtionRouter);
-app.use("/v1", serviceRouter);
+app.use('/v1', userRouter);
+app.use('/v1', adherentRouter);
+app.use('/v1', categoryRouter);
+app.use('/v1', subcategoryRouter);
+app.use('/v1', orderRouter);
+app.use('/v1', reviewRouter);
+app.use('/v1', reclamtionRouter);
+app.use('/v1', serviceRouter);
 
 //! Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
 //! Run the server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
