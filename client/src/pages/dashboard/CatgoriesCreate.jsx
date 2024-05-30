@@ -54,7 +54,7 @@ function CatgoriesCreate() {
                             <input
                                 id="category_name"
                                 type="text"
-                                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                className="block mb-6 w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                                 onChange={(e) => setcategory_name(e.target.value)}
                             />
                         </div>
@@ -66,7 +66,7 @@ function CatgoriesCreate() {
                                 value={active ? 'true' : 'false'}
                                 onChange={(e) => setactive(e.target.value === 'true')}
                             >
-                                <option value="false"></option>
+                                <option value="false">Select Status</option>
                                 <option value="true">Active</option>
                                 <option value="false">Inactive</option>
                             </select>
