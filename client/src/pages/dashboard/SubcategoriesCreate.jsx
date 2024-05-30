@@ -1,30 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Sidebar from '../../layout/Sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import AuthAxios from '../../helpers/request';
 import { createSubcategory } from '../../app/subcategorySlice';
+import { getAllCategories } from '../../app/categorySlice';
 
 function SubcategoriesCreate() {
     const [subcategory_name, setsubcategory_name] = useState('');
-    const [category_name, setcategory_name] = useState('');
-    const [active, setactive] = useState(false);
+    const [categoryId, setCategoryId] = useState('');
+    const [active, setActive] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch categories from the backend
+        const fetchCategories = async () => {
+            try {
+                const response = await AuthAxios.get('http://localhost:8000/v1/categories');
+                setCategories(response.data.docs);
+            } catch (error) {
+                console.log('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Validation
-        if (!subcategory_name || !category_name) {
-            alert('Subcategory Name and Category Name are required.');
+        if (!subcategory_name || !categoryId) {
+            alert('Subcategory Name and Category are required.');
             return;
         }
 
         AuthAxios.post('http://localhost:8000/v1/subcategories/add', {
             subcategory_name,
-            category_name,
+            category: categoryId,
             active,
         })
             .then((response) => {
@@ -69,7 +85,8 @@ function SubcategoriesCreate() {
                                         <input
                                             id="subcategory_name"
                                             type="text"
-                                            className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                            placeholder="Subcategory Name"
+                                            className="block w-full mb-6 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                                             value={subcategory_name}
                                             onChange={(e) =>
                                                 setsubcategory_name(
@@ -81,19 +98,25 @@ function SubcategoriesCreate() {
                                     <div className="flex flex-col">
                                         <label
                                             className="text-gray-700 dark:text-gray-200"
-                                            htmlFor="category_name"
+                                            htmlFor="category"
                                         >
-                                            Category Name
+                                            Category
                                         </label>
-                                        <input
-                                            id="category_name"
-                                            type="text"
-                                            className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                                            value={category_name}
+                                        <select
+                                            id="category"
+                                            className="mt-2 mb-6 block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                                            value={categoryId}
                                             onChange={(e) =>
-                                                setcategory_name(e.target.value)
+                                                setCategoryId(e.target.value)
                                             }
-                                        />
+                                        >
+                                            <option value="">Select Category</option>
+                                            {categories.map((category) => (
+                                                <option key={category.id} value={category.id}>
+                                                    {category.category_name}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                     <div className="flex flex-col">
                                         <label
@@ -107,14 +130,13 @@ function SubcategoriesCreate() {
                                             className="mt-2 block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                                             value={active ? 'true' : 'false'}
                                             onChange={(e) =>
-                                                setactive(
+                                                setActive(
                                                     e.target.value === 'true'
                                                 )
                                             }
                                         >
-                                            <option value="false">
-                                                Inactive
-                                            </option>
+                                            <option value="false">Select Status</option>
+                                            <option value="false">Inactive </option>
                                             <option value="true">Active</option>
                                         </select>
                                     </div>

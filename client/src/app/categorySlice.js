@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+  
 const categorySlice = createSlice({
     name: "categories",
     initialState: {
@@ -15,6 +16,7 @@ const categorySlice = createSlice({
             }));
             state.isLoading = false;
         },
+        
 
         getCategoryById: (state, action) => {
             const category = state.categories.find(x => x.id === action.payload);
