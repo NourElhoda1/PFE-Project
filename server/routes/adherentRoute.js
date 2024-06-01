@@ -44,13 +44,13 @@ adherentRouter.post(
       .notEmpty().withMessage("the country is required") ,
     body("city")
       .trim()
-      .notEmpty().withMessage("the city is required") ,
-    body("postal_code")
-      .trim()
-      .notEmpty().withMessage("the postal code is required")
+      .notEmpty().withMessage("the city is required") 
   ],
   adherentController.adherentRegister
 );
+
+//!logout
+adherentRouter.post("/adherents/logout" , authUserVerification , adherentController.Adherentlogout);
 
 //! Get all adherents
 adherentRouter.get("/adherents" , adherentController.listingAdherents);

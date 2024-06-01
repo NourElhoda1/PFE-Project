@@ -26,7 +26,6 @@ function AdherentsUpdate() {
     const [number, setnumber] = useState(adherent?.number);
     const [country, setcountry] = useState(adherent?.country);
     const [city, setcity] = useState(adherent?.city);
-    const [postal_code, setpostal_code] = useState(adherent?.postal_code);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -53,13 +52,13 @@ function AdherentsUpdate() {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        AuthAxios.put(`http://localhost:8000/v1/adherents/${id}`, { first_name, last_name, email, password, valid_account, active, number, country, city, postal_code })
+        AuthAxios.put(`http://localhost:8000/v1/adherents/${id}`, { first_name, last_name, email, password, valid_account, active, number, country, city })
             .then((response) => {
                 if (!response.data) {
                     console.log('Error updating adherent');
                 }
-                dispatch(updateAdherent({ id, first_name, last_name, email, password, valid_account, active, number, country, city, postal_code }));
-                console.log({ id, first_name, last_name, email,password, valid_account, active, number, country, city, postal_code });
+                dispatch(updateAdherent({ id, first_name, last_name, email, password, valid_account, active, number, country, city }));
+                console.log({ id, first_name, last_name, email,password, valid_account, active, number, country, city });
                 navigate("/adherents");
             })
             .catch((error) => {
@@ -141,20 +140,6 @@ function AdherentsUpdate() {
                                         onChange={(e) => setnumber(e.target.value)}
                                     />
                                 </div>
-
-                                
-                                <div className="flex flex-col">
-                                    <label className="text-gray-700 dark:text-gray-200" htmlFor="postal_code">Code Postal</label>
-                                    <input 
-                                        id="postal_code" 
-                                        type="" 
-                                        value={number}
-                                        placeholder="Enter your postal code"
-                                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                                        onChange={(e) => setpostal_code(e.target.value)}
-                                    />
-                                </div>
-
 
                                 <div className="flex flex-col">
                                     <label className="text-gray-700 dark:text-gray-200" htmlFor="Country">Country</label>

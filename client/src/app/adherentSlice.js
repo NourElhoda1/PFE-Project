@@ -25,6 +25,10 @@ const adherentSlice = createSlice({
       state.isLoading = false;
     },
 
+    createAdherent: (state, action) => {
+      state.adherents.push(action.payload);
+    },
+
     getAdherentById: (state, action) => {
       const adherent = state.adherents.find(x => x.id === action.payload);
       state.currentAdherent = adherent;
@@ -42,8 +46,7 @@ const adherentSlice = createSlice({
         active: action.payload.active,
         number: action.payload.number,
         country: action.payload.country,
-        city: action.payload.city,
-        postal_code: action.payload.postal_code
+        city: action.payload.city
       }
     },
   },
@@ -51,6 +54,7 @@ const adherentSlice = createSlice({
 
 export const { 
   getAllAdherents, 
+  createAdherent,
   getAdherentById, 
   updateAdherent 
 } = adherentSlice.actions;

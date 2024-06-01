@@ -25,6 +25,9 @@ import ReclamationsDetails from '../pages/dashboard/ReclamationsDetails';
 import UserProfile from '../pages/dashboard/UserProfile';
 import PageNotFound from '../pages/PageNotFound';
 import ProtectedRouter from './ProtectedRouter';
+import AdherentRegister from '../pages/interface/AdherentRegister';
+import AdherentLogin from '../pages/interface/AdherentLogin';
+
 
 const ConfigRouter = createBrowserRouter(
     createRoutesFromElements(
@@ -83,6 +86,8 @@ const ConfigRouter = createBrowserRouter(
                 <Route path="*" element={<PageNotFound />} />
                 <Route path="/" exact element={<Home />} />
                 <Route path="/users/login" element={<UserLogin />} />
+                <Route path="/register" element={<AdherentRegister />} />
+                <Route path='/login' element={<AdherentLogin />} />
             </Route>
         </Route>
     )
