@@ -1,5 +1,6 @@
 import React from 'react';
 import about from '../../../assets/landingpage/about.png';
+import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
   return (
@@ -33,12 +34,12 @@ const AboutUs = () => {
             </p>
           </div>
           <div className="mt-10 text-center lg:text-left">
-            <a
-              href="#"
-              className="inline-flex items-center px-6 py-3 border radius-3xl border-transparent text-base font-medium rounded-md text-dark bg-white hover:bg-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            <Link 
+              to="/register"
+              className="inline-flex items-center px-6 py-3 border radius-3xl border-transparent text-lg font-semibold rounded-md text-dark bg-white hover:bg-dark hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Get Started
-            </a>
+              Join Us
+            </Link>
           </div>
         </div>
       </div>

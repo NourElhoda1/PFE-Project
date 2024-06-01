@@ -39,11 +39,6 @@ const adherentSchema = new mongoose.Schema({
         required : [true , 'the city is required'] ,
     } ,
 
-    postal_code : {
-        type : String ,
-        required : [true , 'the postal code is required'] ,
-    } ,
-
     last_login : {
         type : Date ,
     } ,

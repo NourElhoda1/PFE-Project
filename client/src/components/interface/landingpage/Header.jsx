@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import avatar1 from '../../../assets/landingpage/avatar1.png';
-import avatar2 from '../../../assets/landingpage/avatar2.png';
-import avatar3 from '../../../assets/landingpage/avatar3.png';
+import avatar1 from '../../../assets/landingpage/header2.png';
+import avatar2 from '../../../assets/landingpage/header3.png';
+import avatar3 from '../../../assets/landingpage/header1.png';
 import avatar4 from '../../../assets/landingpage/avatar4.png';
-import avatar5 from '../../../assets/landingpage/avatar5.png';
+import avatar5 from '../../../assets/landingpage/header4.png';
 
 const Header = () => {
   return (

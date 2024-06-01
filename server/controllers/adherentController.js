@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const adherentModel = require("../models/adherentModel");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 const jwt_secret = process.env.JWT_SECRET;
 
 const adherentController = {
@@ -13,68 +14,70 @@ const adherentController = {
         //* Check if there are any validation problems
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json(errors);
+            return res.status(400).json({ errors: errors.array() });
         }
 
         try {
             const adherent = await adherentModel.findOne({ email: email });
 
             //* Check if there is any adherent with this email
-            if (adherent) {
-
-                //* Check if the password that came from input is equal to the password that exists in the db
-                const comparePasswords = await bcrypt.compare(password, adherent.password);
-
-                if (comparePasswords) {
-
-                    //* Generate the token
-                    const token = jwt.sign({ email: email }, jwt_secret);
-                    if (token) {
-                        res.status(200).json({
-                            adherent: adherent,
-                            token: token
-                        });
-                    }
-                    else {
-                        res.status(401).json({ message: 'Something went wrong with the token' });
-                    }
-                }
-                else {
-                    res.status(401).json({ message: 'The password is not correct' });
-                }
+            if (!adherent) {
+                return res.status(400).json({ message: 'There is no account with this email' });
             }
-            else {
-                res.status(400).json({ message: 'There is no account with this email' });
+
+            //* Check if the password that came from input is equal to the password that exists in the db
+            const comparePasswords = await bcrypt.compare(password, adherent.password);
+            if (!comparePasswords) {
+                return res.status(401).json({ message: 'The password is not correct' });
             }
+
+            //* Generate the token
+            const token = jwt.sign({ email: email, id: adherent._id }, jwt_secret, { expiresIn: '1h' });
+            if (!token) {
+                return res.status(500).json({ message: 'Something went wrong with the token' });
+            }
+
+            //* Remove password from the adherent object before sending
+            const { password: _, ...adherentWithoutPassword } = adherent.toObject();
+
+            res
+                .cookie("access_token", token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                })
+                .status(200)
+                .json({ adherent: adherentWithoutPassword, token });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
-        catch (error) {
-            console.log(error);
-        }
+    },
+
+    //! Logout
+    Adherentlogout: (req, res) => {
+        res
+            .clearCookie("access_token", {
+                sameSite: "none",
+                secure: process.env.NODE_ENV === "production",
+            })
+            .status(200)
+            .send("adherent has been logged out.");
     },
 
     //! Create a new adherent account
     adherentRegister: async (req, res) => {
-
-        const { 
-            first_name,
-            last_name, 
-            email, 
-            password,
-            number,
-            country,
-            city,
-            postal_code
-        } = req.body;
+        const { first_name, last_name, email, password, number, country, city } = req.body;
 
         //* Check if there are any validation problems
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json(errors);
+            return res.status(400).json({ errors: errors.array() });
         }
 
         //* Check if adherent already has an account
-        const adherent = await adherentModel.findOne({ email: email });
-        if (adherent) {
+        const existingAdherent = await adherentModel.findOne({ email: email });
+        if (existingAdherent) {
             return res.status(400).json({ message: 'An account with this email already exists' });
         }
 
@@ -85,22 +88,21 @@ const adherentController = {
         //* Create the new adherent
         try {
             const newAdherent = await adherentModel.create({
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
+                first_name,
+                last_name,
+                email,
                 password: hashedPassword,
-                number: number,
-                country: country,
-                city: city,
-                postal_code: postal_code
+                number,
+                country,
+                city
             });
-            res.status(200).json({
+            res.status(201).json({
                 message: 'Adherent created successfully',
                 adherent: newAdherent,
             });
-        }
-        catch (error) {
-            console.log('Something went wrong', error);
+        } catch (error) {
+            console.error('Something went wrong', error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
@@ -108,27 +110,25 @@ const adherentController = {
     listingAdherents: async (req, res) => {
         try {
             //* Paginate the adherents
-            const adherents = await adherentModel.paginate(
-                {},
-                { page: req.query.page, limit: 100 }
-            );
-            res.status(200).send(adherents);
-        }
-        catch (error) {
-            console.log('Something went wrong', error);
+            const adherents = await adherentModel.paginate({}, { page: req.query.page, limit: 100 });
+            res.status(200).json(adherents);
+        } catch (error) {
+            console.error('Something went wrong', error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
-        //! Search for an adherent
+    //! Search for an adherent
     searchForAdherent: async (req, res) => {
         try {
             const adherent = await adherentModel.paginate(
-                { $or: [{ first_name: { $regex: req.query.name } }, { last_name: { $regex: req.query.name } }] },
-                { name: req.query.name, page: req.query.page, limit: 5 }
+                { $or: [{ first_name: { $regex: req.query.name, $options: 'i' } }, { last_name: { $regex: req.query.name, $options: 'i' } }] },
+                { page: req.query.page, limit: 5 }
             );
-            res.status(200).send(adherent);
+            res.status(200).json(adherent);
         } catch (error) {
-            console.log('Something went wrong', error);
+            console.error('Something went wrong', error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
@@ -136,68 +136,62 @@ const adherentController = {
     getAdherentById: async (req, res) => {
         const { id } = req.params;
         try {
-            const adherent = await adherentModel.find({ _id: id });
-            res.status(200).send(adherent);
+            const adherent = await adherentModel.findById(id);
+            if (!adherent) {
+                return res.status(404).json({ message: 'Adherent not found' });
+            }
+            res.status(200).json(adherent);
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
-
-     //! Validate the adherent's account
+    //! Validate or invalidate the adherent's account
     validateAndInvalidateAdherentAccount: async (req, res) => {
         const { id } = req.params;
         try {
-            const adherent = await adherentModel.findOne({ _id: id });
-            //* Make the account invalid
-            if (adherent.valid_account === true) {
-                await adherentModel.findByIdAndUpdate(id, { valid_account: false });
-                res.status(200).json({ message: 'The account is invalid now' });
+            const adherent = await adherentModel.findById(id);
+            if (!adherent) {
+                return res.status(404).json({ message: 'Adherent not found' });
             }
-            //* Make the account valid
-            else {
-                await adherentModel.findByIdAndUpdate(id, { valid_account: true });
-                res.status(200).json({ message: 'The account is valid now' });
-            }
+            const updatedAdherent = await adherentModel.findByIdAndUpdate(id, { valid_account: !adherent.valid_account }, { new: true });
+            res.status(200).json({ message: `The account is now ${updatedAdherent.valid_account ? 'valid' : 'invalid'}` });
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
-    //! Updating the adherent's data
+    //! Update the adherent's data
     updateAdherent: async (req, res) => {
-        const { 
-            first_name, 
-            last_name, 
-            email, 
-            password, 
-            valid_account, 
-            active ,
-            number,
-            country,
-            city,
-            postal_code
-        } = req.body;
+        const { first_name, last_name, email, number, country, city, valid_account, active } = req.body;
         const { id } = req.params;
+
+        //* Check if there are any validation problems
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         try {
-            //* Find the adherent that I want to update their data
-            const adherentWantToUpdate = await adherentModel.findOne({ _id: id });
-            //* Then update their data
-            const adherent = await adherentModel.findByIdAndUpdate(adherentWantToUpdate._id, {
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                password: adherentWantToUpdate.password,
-                valid_account: valid_account,
-                active: active,
-                number: number,
-                country: country,
-                city: city,
-                postal_code: postal_code
-            });
-            res.status(200).json({ message: 'The adherent data has been updated with success' });
+            const updatedAdherent = await adherentModel.findByIdAndUpdate(id, {
+                first_name,
+                last_name,
+                email,
+                number,
+                country,
+                city,
+                valid_account,
+                active
+            }, { new: true });
+            if (!updatedAdherent) {
+                return res.status(404).json({ message: 'Adherent not found' });
+            }
+            res.status(200).json({ message: 'The adherent data has been updated successfully', adherent: updatedAdherent });
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
@@ -205,75 +199,72 @@ const adherentController = {
     blockOrUnblock: async (req, res) => {
         const { id } = req.params;
         try {
-            const updatedAdherent = await adherentModel.findOne({ _id: id });
-
-            if (!updatedAdherent) {
+            const adherent = await adherentModel.findById(id);
+            if (!adherent) {
                 return res.status(404).json({ message: 'Adherent not found' });
             }
-
-            const blockOrUnblock = await adherentModel.findByIdAndUpdate(id, {
-                active: !updatedAdherent.active,
-            }, { new: true });
-
-            if (blockOrUnblock) {
-                res.status(200).json({ message: 'Adherent updated successfully', blockOrUnblock });
-            }
-
+            adherent.active = !adherent.active;
+            await adherent.save();
+            res.status(200).json({ message: `Adherent has been ${adherent.active ? 'unblocked' : 'blocked'}`, adherent });
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
     //! Adherent profile
     adherentProfile: async (req, res) => {
         const id = req.adherent._id;
-        const adherent = await adherentModel.findById(id);
-
-        if (adherent) {
+        try {
+            const adherent = await adherentModel.findById(id);
+            if (!adherent) {
+                return res.status(404).json({ message: 'Adherent not found' });
+            }
             res.status(200).json(adherent);
-        } else {
-            res.status(400).json('Oops!');
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
-     //! Update profile info
-     adherentCanUpdate : async (req , res) => {
-        const id = req.user._id ;
+    //! Update profile info
+    adherentCanUpdate: async (req, res) => {
+        const id = req.adherent._id;
 
-        //* Check is there is any validation problem
-        const errors = validationResult(req) ;
-        if ( !errors.isEmpty() ) {
-            return res.status(403).json(errors) ;
+        //* Check if there are any validation problems
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
+
+        const { first_name, last_name, email, password, number, country, city } = req.body;
 
         try {
-            const { first_name , last_name , email , password , number , country , city , postal_code} = req.body ;
-            
-            const adherentInformationUpdated = await adherentModel.findByIdAndUpdate(id.toString() , {
-                first_name : first_name ,
-                last_name : last_name ,
-                email : email ,
-                password : password ,
-                number : number ,
-                country : country ,
-                city : city ,
-                postal_code : postal_code
-            } , {new : true}) ;
-            
-            if ( adherentInformationUpdated ) {
-                res.status(200).json({
-                    message : 'Information has been updated with success' ,
-                    newInfo : adherentInformationUpdated ,
-                }) ;
+            const adherent = await adherentModel.findById(id);
+            if (!adherent) {
+                return res.status(404).json({ message: 'Adherent not found' });
             }
 
+            if (password) {
+                const salt = await bcrypt.genSalt(10);
+                adherent.password = await bcrypt.hash(password, salt);
+            }
+
+            adherent.first_name = first_name;
+            adherent.last_name = last_name;
+            adherent.email = email;
+            adherent.number = number;
+            adherent.country = country;
+            adherent.city = city;
+
+            await adherent.save();
+            res.status(200).json({ message: 'Profile updated successfully', adherent });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
-        catch ( error ) {
-            res.status(400).json(error) ;
-        }
-    } 
+    },
 
-    } 
+}
 
-    module.exports = adherentController;
-
+module.exports = adherentController;

@@ -87,6 +87,7 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-col">
+          <h2 className="text-2xl font-semibold mt-6 pr-20">Orders</h2>
           {!isLoading ? (
             <div className="flex flex-col mt-6 pr-20">
               <OrdersTable 
