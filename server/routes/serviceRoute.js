@@ -59,8 +59,10 @@ serviceController.createService
 serviceRouter.get('/services' , serviceController.listingServices) ;
 
 //! Get a service by ID
-
 serviceRouter.get('/services/:id' , serviceController.getServiceById) ;
+
+//! Get a service by Adherent ID
+serviceRouter.get('/services/seller/:adherentId' , serviceController.getServiceBySellerId) ;
 
 //! Update the service data
 serviceRouter.put(

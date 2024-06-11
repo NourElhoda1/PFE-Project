@@ -27,7 +27,15 @@ import PageNotFound from '../pages/PageNotFound';
 import ProtectedRouter from './ProtectedRouter';
 import AdherentRegister from '../pages/interface/AdherentRegister';
 import AdherentLogin from '../pages/interface/AdherentLogin';
-
+import ChatApp from '../pages/interface/ChatApp';
+import Profileeee from '../pages/interface/Profileeee';
+import CategoriesListe from '../pages/interface/CategoriesListe';
+import ServiceDetailsInterface from '../pages/interface/ServiceDetailsInterface';
+import AdherentProfile from '../pages/interface/AdherentProfile';
+import AdherentServices from '../pages/interface/AdherentServices';
+import AdherentSettings from '../pages/interface/AdherentSettings';
+// import AdherentReclamation from '../pages/interface/AdherentReclamation';
+// import AddReclamation from '../pages/interface/AddReclamation';
 
 const ConfigRouter = createBrowserRouter(
     createRoutesFromElements(
@@ -74,10 +82,7 @@ const ConfigRouter = createBrowserRouter(
                 <Route path="orders" element={<Orders />} />
 
                 <Route path="reclamations" element={<Reclamations />} />
-                <Route
-                    path="/reclamations/update/:id"
-                    element={<ReclamationsDetails />}
-                />
+                <Route path="/reclamations/:id" element={<ReclamationsDetails />}/>
 
                 <Route path="/profile" element={<UserProfile />} />
             </Route>
@@ -88,6 +93,22 @@ const ConfigRouter = createBrowserRouter(
                 <Route path="/users/login" element={<UserLogin />} />
                 <Route path="/register" element={<AdherentRegister />} />
                 <Route path='/login' element={<AdherentLogin />} />
+                <Route path='/categoriesliste' element={<CategoriesListe />} />
+                <Route path='/categoriesliste/:categoryId?' element={<CategoriesListe />} />
+                <Route path="/services/detail/:id" element={<ServiceDetailsInterface />} />
+                <Route path="/profile/:id" component={<AdherentProfile />} />
+                
+                
+            </Route>
+
+            <Route>
+                <Route path="/profileeee" element={<Profileeee />} />
+                <Route path='/adherents/profile' element={<AdherentProfile />} />
+                <Route path='/chat' element={<ChatApp />} />
+                <Route path='/myservices/:adherentId' element={<AdherentServices />} />
+                <Route path='settings' element={<AdherentSettings />} />
+                {/* <Route path='/reclamation' element={<AdherentReclamation />} />
+                <Route path='/reclamation/add' element={<AddReclamation />} /> */}
             </Route>
         </Route>
     )

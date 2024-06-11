@@ -76,19 +76,46 @@ const serviceController = {
         }
       },
 
-    //! Get a service by ID
+     //! Get a service by ID
     getServiceById : async (req , res) => {
         const { id } = req.params;
         try {
-            const service = await serviceModel.findOne({ _id : id });
-            res.status(200).send(service);
-        }
-        catch ( error ) {
+            const service = await serviceModel.findOne({ _id : id })
+            .populate({ path : 'categoryId' , select : 'category_name' })
+            .populate({ path : 'subcategoryId' , select : 'subcategory_name' })
+            .populate({ path: 'sellerId' , select : 'first_name last_name' });
+            if( service ) {
+                return res.status(200).send(service);
+            } else {
+                return res.status(404).json({ message : 'Service not found' });
+            }
+        } catch ( error ) {
             console.log('Something went wrong' , error);
             res.status(500).json({ message: 'Something went wrong' });
         }
     },
 
+    //! Get services by adherentId
+    getServiceBySellerId : async (req, res) => {
+        const { adherentId } = req.params;
+        try {
+            const services = await serviceModel.find({ sellerId: adherentId })
+                .populate({ path: 'categoryId', select: 'category_name' })
+                .populate({ path: 'subcategoryId', select: 'subcategory_name' })
+                .populate({ path: 'sellerId', select: 'first_name last_name' });
+    
+            if (services.length > 0) {
+                return res.status(200).send(services);
+            } else {
+                return res.status(404).json({ message: 'No services found for this adherent' });
+            }
+        } catch (error) {
+            console.log('Something went wrong', error);
+            res.status(500).json({ message: 'Something went wrong' });
+        }
+    },
+    
+      
     //! Update the service data
     updateService : async (req , res) => {
         const{

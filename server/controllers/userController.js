@@ -253,38 +253,74 @@ const userController = {
     
 
     //! Update profile info
-    updateProfileInfo : async (req , res) => {
-        const id = req.user._id ;
-
-        //* Check is there is any validation problem
-        const errors = validationResult(req) ;
-        if ( !errors.isEmpty() ) {
-            return res.status(403).json(errors) ;
-        }
-
-        try {
-            const { first_name , last_name , user_name , email , password } = req.body ;
-            
-            const userInformationUpdated = await userModel.findByIdAndUpdate(id.toString() , {
-                first_name : first_name ,
-                last_name : last_name ,
-                user_name : user_name ,
-                email : email ,
-                password : password ,
-            } , {new : true}) ;
-            
-            if ( userInformationUpdated ) {
-                res.status(200).json({
-                    message : 'Information has been updated with success' ,
-                    newInfo : userInformationUpdated ,
-                }) ;
+        // Update profile info
+        updateProfileInfo: async (req, res) => {
+            const id = req.user._id;
+        
+            // Check for validation errors
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+            return res.status(403).json(errors);
             }
+        
+            try {
+            const { first_name, last_name, user_name, email } = req.body;
+        
+            const userInformationUpdated = await userModel.findByIdAndUpdate(
+                id.toString(),
+                {
+                first_name: first_name,
+                last_name: last_name,
+                user_name: user_name,
+                email: email,
+                },
+                { new: true }
+            );
+        
+            if (userInformationUpdated) {
+                res.status(200).json({
+                message: "Information has been updated successfully",
+                newInfo: userInformationUpdated,
+                });
+            }
+            } catch (error) {
+            res.status(400).json(error);
+            }
+        },
 
-        }
-        catch ( error ) {
-            res.status(400).json(error) ;
-        }
-    } ,
+        // Update password
+        updatePassword: async (req, res) => {
+            const id = req.user._id;
+        
+            // Check for validation errors
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+            return res.status(403).json(errors);
+            }
+        
+            try {
+            const { password } = req.body;
+        
+            const userInformationUpdated = await userModel.findByIdAndUpdate(
+                id.toString(),
+                {
+                password: password,
+                },
+                { new: true }
+            );
+        
+            if (userInformationUpdated) {
+                res.status(200).json({
+                message: "Password has been updated successfully",
+                newInfo: userInformationUpdated,
+                });
+            }
+            } catch (error) {
+            res.status(400).json(error);
+            }
+        },
+  
+    
 
     //! Delete a user
     deleteUser : async (req , res) => {

@@ -63,9 +63,58 @@ const adherentSchema = new mongoose.Schema({
         default : Date.now ,    
     },
 
-    avatar : {
+    profile_pic : {
         type : String ,
-    } 
+        default : ''
+    },
+    
+    chats : {
+        type : mongoose.Schema.Types.ObjectId , 
+        ref : 'Chat'
+    },
+
+    careerStatus: {
+        status: String,
+    },
+
+    about: {
+        type: String,
+    },
+
+    resume: {
+        fileName: String,
+        filePath: String,
+    },
+
+    education: [{
+        institution: String,
+        degree: String,
+        field: String,
+        startDate: Date,
+        endDate: Date,
+    }],
+
+    experiences: [{
+        company: String,
+        role: String,
+        type: String,
+        startDate: Date,
+        endDate: Date,
+    }],
+
+    skills: [String],
+
+    languages: [{
+      language: String,
+      proficiency: String,
+    }],
+
+    projects: [{
+        name: String,
+        description: String
+    }],
+
+
 
 } , { timestamps : true }) ;
 

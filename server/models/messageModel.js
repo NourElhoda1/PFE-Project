@@ -1,30 +1,23 @@
-const mongoose = require("mongoose");
-const mongoosePagination = require('mongoose-paginate-v2')
+const mongoose = require('mongoose') ;
+const mongoosePagination = require('mongoose-paginate-v2') ;
 
 const messageSchema = new mongoose.Schema({
-    conversationId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Conversation",
-        required: true,
+    
+    chatId : {
+        type : String ,
     },
 
-    adherentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Adherent",
-        required: true,    
+    senderId : {
+        type : String ,
     },
 
-    message: {
-        type: String,
-        required: true,
-    },
+    text : {
+        type : String ,
+    }
+    
+} , { timestamps : true }) ;
 
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-}, { timestamps: true });
+messageSchema.plugin(mongoosePagination) ;
+const messageModel = mongoose.model('Message' , messageSchema) ;
+module.exports = messageModel ;
 
-messageSchema.plugin(mongoosePagination);
-const messageModel = mongoose.model("Message", messageSchema);
-module.exports = messageModel

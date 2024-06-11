@@ -6,6 +6,7 @@ import subcategoryReducer from './subcategorySlice';
 import serviceReducer from './serviceSlice';
 import orderReducer from './orderSlice';
 import reclamationReducer from './reclamationSlice';
+import messagesSlice from './messagesSlice';
 
 
 
@@ -17,7 +18,8 @@ export const store = configureStore({
         subcategory : subcategoryReducer,
         service : serviceReducer,
         order : orderReducer,
-        reclamation : reclamationReducer
+        reclamation : reclamationReducer,
+        messagesSlice : messagesSlice,
     }
 });
 

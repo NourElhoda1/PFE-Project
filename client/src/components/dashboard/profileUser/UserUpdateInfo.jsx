@@ -8,7 +8,7 @@ function UserUpdateInfo({ handleTabClick }) {
     first_name: "",
     last_name: "",
     user_name: "",
-    email: ""
+    email: "",
   });
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
@@ -68,7 +68,7 @@ function UserUpdateInfo({ handleTabClick }) {
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
           <div className="flex flex-col">
-            <label className="text-gray-700  mb-2" htmlFor="first_name">
+            <label className="text-gray-700 mb-2" htmlFor="first_name">
               First Name
             </label>
             <input
@@ -82,7 +82,7 @@ function UserUpdateInfo({ handleTabClick }) {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700  mb-2" htmlFor="last_name">
+            <label className="text-gray-700 mb-2" htmlFor="last_name">
               Last Name
             </label>
             <input
@@ -110,7 +110,7 @@ function UserUpdateInfo({ handleTabClick }) {
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700  mb-2" htmlFor="email">
+            <label className="text-gray-700 mb-2" htmlFor="email">
               Email
             </label>
             <input
@@ -125,15 +125,15 @@ function UserUpdateInfo({ handleTabClick }) {
         </div>
 
         <div className="flex justify-end mt-6 space-x-2">
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md focus:outline-none focus:bg-gray-600"
           >
             Save
           </button>
-          <button 
-            type="button" 
-            onClick={() => handleTabClick('overview')} 
+          <button
+            type="button"
+            onClick={() => handleTabClick("overview")}
             className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-primary rounded-md focus:outline-none focus:bg-gray-600"
           >
             Cancel

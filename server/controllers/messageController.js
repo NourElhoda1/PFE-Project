@@ -1,46 +1,34 @@
 const messageModel = require('../models/messageModel');
-const conversationModel = require('../models/conversationModel');
+
 
 const messageController = {
-    //! Create a new message
-    createMessage : async (req , res) => {
-        const newMessage = new messageModel({
-            conversationId: req.body.conversationId,
-            adherentId: req.adherentId,
-            message: req.body.message,
-          });
-          try {
-            const savedMessage = await newMessage.save();
-            await conversationModel.findOneAndUpdate(
-              { id: req.body.conversationId },
-              {
-                $set: {
-                  readBySeller: req.isSeller,
-                  readByBuyer: !req.isSeller,
-                  lastMessage: req.body.message,
-                },
-              },
-              { new: true }
-            );
-        
-            res.status(201).send(savedMessage);
-          } catch (err) {
-            next(err);
-          }
-    },
 
-    //! Get all messages
-    listingMessages : async (req , res) => {
+    //! Create a new message
+    addMessage : async (req, res) => {
+        const { chatId, senderId, text } = req.body;
+        const message = new messageModel({
+          chatId,
+          senderId,
+          text,
+        });
         try {
-          const messages = await messageModel
-            .find({ conversationId: req.params.id })
-            .sort({ createdAt: -1 });
-          res.status(200).send(messages);
+          const result = await message.save();
+          res.status(200).json(result);
         } catch (error) {
-          console.log('Something went wrong' , error);
-          res.status(500).json({ message: 'Something went wrong' });
+          res.status(500).json(error);
         }
     },
-};
+
+    //! Get a Message
+    getMessages : async (req, res) => {
+        const { chatId } = req.params;
+        try {
+          const result = await messageModel.find({ chatId });
+          res.status(200).json(result);
+        } catch (error) {
+          res.status(500).json(error);
+        }
+    },
+}
 
 module.exports = messageController ;

@@ -1,13 +1,15 @@
 const express = require('express');
-const messageRouter = express.Router();
 const messageController = require('../controllers/messageController');
-const authUserVerification = require('../middlewares/authUserVerification');
-const adherentVerification = require('../middlewares/adherentVerification');
+const messageRouter = express.Router();
+
 
 //! Create a new message
-messageRouter.post('/messages/add', authUserVerification, messageController.createMessage);
+messageRouter.post('/messages/add' , messageController.addMessage) ;
 
-//! Get all messages of a conversation
-messageRouter.get('/messages/:id', authUserVerification, messageController.listingMessages);
+//! Get a Message
+messageRouter.get('/messages/:chatId' , messageController.getMessages) ;
 
-module.exports = messageRouter;
+
+module.exports = messageRouter ;
+
+

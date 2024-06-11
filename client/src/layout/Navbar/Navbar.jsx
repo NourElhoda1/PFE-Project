@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { 
-  getAllCategories, 
-  categoriesSelector, 
-  isLoadingSelector 
-} from '../../app/categorySlice';
+import { getAllCategories, categoriesSelector, isLoadingSelector } from '../../app/categorySlice';
 import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import Head from '../../layout/Navbar/Head';
 import { FaRegUser } from "react-icons/fa";
+import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -19,13 +16,18 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8000/v1/categories");
-        dispatch(getAllCategories(response.data.docs));
+        if (response.data.docs) {
+          dispatch(getAllCategories(response.data.docs));
+        } else {
+          console.log('Categories data is undefined:', response.data);
+        }
       } catch (err) {
         console.log("Error fetching categories:", err);
       }
@@ -33,11 +35,21 @@ const Navbar = () => {
     fetchData();
   }, [dispatch]);
 
-  const currentUser = Cookies.get('currentUser') ? JSON.parse(Cookies.get('currentUser')) : null;
+  useEffect(() => {
+    const userCookie = Cookies.get('profile');
+    if (userCookie) {
+      try {
+        setCurrentUser(JSON.parse(userCookie));
+      } catch (error) {
+        console.error('Error parsing user profile data:', error);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
-    Cookies.remove('currentUser');
-    navigate("/"); 
+    Cookies.remove('profile');
+    setCurrentUser(null);
+    navigate("/");
   };
 
   const toggleCategoryDropdown = () => {
@@ -68,15 +80,15 @@ const Navbar = () => {
             {isCategoryDropdownOpen && (
               <div className="absolute top-full mt-2 w-[700px] bg-white border rounded-lg border-gray-200 shadow-lg grid grid-cols-3 gap-4 p-4">
                 {categories.length ? categories.map((category) => (
-                  <Link to={`/category/${category.id}`} key={category.id} className="block rounded-md hover:bg-gray-200 p-2">
-                    {category.category_name}
-                  </Link>
+                  <Link to={`/categoriesliste/${category.id}`} key={category.id} className="block rounded-md hover:bg-gray-200 p-2">
+                  {category.category_name}
+                </Link>                
                 )) : <p className="col-span-3 text-center">No categories available</p>}
               </div>
             )}
           </div>
           <Link to="/about-us" className="text-black font-medium hover:text-green-700">About Us</Link>
-          <Link to="/category" className="text-black font-medium hover:text-green-700">Explore</Link>
+          <Link to="/categoriesliste" className="text-black font-medium hover:text-green-700">Explore</Link>
         </div>
         {!currentUser ? (
           <div className="hidden md:flex space-x-4">
@@ -85,28 +97,34 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="hidden md:flex space-x-4 items-center">
-            <div className="relative">
-              <button 
-                className="text-black font-medium hover:text-green-700 focus:outline-none flex items-center"
-                onClick={toggleProfileDropdown}
-                aria-label="Toggle Profile Dropdown"
-              >
-                <FaRegUser size={20} /> {isProfileDropdownOpen ? <GoChevronUp className="ml-1" /> : <GoChevronDown className="ml-1" />}
-              </button>
-              {isProfileDropdownOpen && (
-                <div className="absolute top-full mt-2 right-0 bg-white border rounded-lg border-gray-200 shadow-lg p-4 w-48 ">
-                  <Link to="/profile" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Profile</Link>
-                  <Link to="/" className='block rounded-md hover:bg-gray-200 p-2'>Post a Service</Link>
-                  <Link to="/orders" className="block rounded-md hover:bg-gray-200 p-2 ">Orders</Link>
-                  <Link to=" /" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Message Center </Link>
-                  <button 
-                    onClick={handleLogout} 
-                    className="w-full text-left block rounded-md hover:bg-gray-200 p-2"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
+            <div className="flex gap-4 items-center space-x-2">
+              <Link to="/chat" className="text-black font-medium hover:text-green-700 focus:outline-none flex items-center">
+                <HiOutlineChatBubbleLeftRight size={27} />
+              </Link>
+              <div className="relative">
+                <button 
+                  className="text-black font-medium hover:text-green-700 focus:outline-none flex items-center"
+                  onClick={toggleProfileDropdown}
+                  aria-label="Toggle Profile Dropdown"
+                >
+                  <FaRegUser size={23} /> {isProfileDropdownOpen ? <GoChevronUp className="ml-1" /> : <GoChevronDown className="ml-1" />}
+                </button>
+                {isProfileDropdownOpen && (
+                  <div className="absolute top-full mt-2 right-0 bg-white border rounded-lg border-gray-200 shadow-lg p-4 w-48">
+                    <Link to="/profileeee" className="block rounded-md hover:bg-gray-200 p-2 ">Profile</Link>
+                    <Link to="/settings"  className='block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300'>Settings</Link>
+                    <Link to="/" className="block rounded-md hover:bg-gray-200 p-2">Post a Service</Link>
+                    <Link to="/myservices/:adherentId" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">My Services</Link>
+                    {/* <Link to="/reclamation" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Reclamation</Link> */}
+                    <button 
+                      onClick={handleLogout} 
+                      className="w-full text-left block rounded-md hover:bg-gray-200 p-2"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -132,7 +150,7 @@ const Navbar = () => {
                 {isCategoryDropdownOpen && (
                   <div className="mt-2 w-full bg-white border rounded-lg border-gray-200 shadow-lg grid grid-cols-1 gap-4 p-4">
                     {categories.length ? categories.map((category) => (
-                      <Link to={`/category/${category.id}`} key={category.id} className="block rounded-md hover:bg-gray-200 p-2">
+                      <Link to={`/categoriesliste/${category.id}`} key={category.id} className="block rounded-md hover:bg-gray-200 p-2">
                         {category.category_name}
                       </Link>
                     )) : <p className="text-center">No categories available</p>}
@@ -140,7 +158,7 @@ const Navbar = () => {
                 )}
               </div>
               <Link to="/about-us" className="text-black pb-2 hover:text-gray-700">About Us</Link>
-              <Link to="/category" className="text-black pb-2 hover:text-gray-700">Explore</Link>
+              <Link to="/categoriesliste" className="text-black pb-2 hover:text-gray-700">Explore</Link>
               {!currentUser ? (
                 <>
                   <Link to="/login" className="bg-green-200 text-black hover:text-gray-700 px-4 py-2 rounded-md hover:bg-green-300">Login</Link>
@@ -157,10 +175,11 @@ const Navbar = () => {
                   </button>
                   {isProfileDropdownOpen && (
                     <div className="mt-2 w-full bg-white border rounded-lg border-gray-200 shadow-lg p-4">
-                      <Link to="/profile" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Profile</Link>
-                      <Link to="/" className='block rounded-md hover:bg-gray-200 p-2'>Post a Service</Link>
-                      <Link to="/orders" className="block rounded-md hover:bg-gray-200 p-2 ">Orders</Link>
-                      <Link to=" /" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Message Center </Link>
+                      <Link to="/profileeee" className="block rounded-md hover:bg-gray-200 p-2 ">Profile</Link>
+                      <Link to="/settings"  className='block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300'>Settings</Link>
+                      <Link to="/" className="block rounded-md hover:bg-gray-200 p-2">Post a Service</Link>
+                      <Link to="/myservices/:adherentId" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">My Services</Link>
+                      {/* <Link to="/reclamation" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Reclamation</Link> */}
                       <button 
                         onClick={handleLogout} 
                         className="w-full text-left block rounded-md hover:bg-gray-200 p-2"

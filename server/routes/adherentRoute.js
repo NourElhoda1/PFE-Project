@@ -61,6 +61,9 @@ adherentRouter.get("/adherent" , adherentController.searchForAdherent);
 //! Adherent profile
 adherentRouter.get("/adherent/profile" , adherentVerification , adherentController.adherentProfile);
 
+//! Get an adherent's profile by ID
+adherentRouter.get("/adherent/profile/:id" , adherentController.getAdherentProfileById);
+
 //! Get a adherent by ID
 adherentRouter.get("/adherents/:id" , adherentController.getAdherentById);
 
@@ -71,32 +74,11 @@ adherentRouter.put("/validate/:id" , adherentController.validateAndInvalidateAdh
 adherentRouter.put("/adherents/:id"  , adherentController.updateAdherent);
 
 //! Update profile information
-adherentRouter.put('/adhernet/profile/update/information'
-  , 
- [
-  body("first_name")
-      .trim()
-      .notEmpty()
-      .withMessage("the first name is required")
-      .isAlpha()
-      .withMessage("please enter a valid first name"),
-  body("last_name")
-    .trim()
-    .notEmpty()
-    .withMessage("the last name is required")
-    .isAlpha()
-    .withMessage("please enter a valid last name"),
-  body("email")
-    .trim()
-    .notEmpty()
-    .withMessage("the email is required")
-    .isEmail()
-    .withMessage("please enter a valid email"),
-  body("password")
-    .trim()
-    .notEmpty().withMessage("the password is required")
- ] ,
- adherentController.adherentCanUpdate) ;
+adherentRouter.put('/adherent/profile/update/information', adherentVerification , adherentController.adherentCanUpdateProfile) ;
+
+//! Update profile password
+adherentRouter.put('/adherent/profile/update/password' , adherentController.adherentCanUpdatePassword) ;
+
 
 //! Block or unblock a adherent 
 adherentRouter.put("/adherents/block-unblock/:id"  , adherentController.blockOrUnblock) ;
