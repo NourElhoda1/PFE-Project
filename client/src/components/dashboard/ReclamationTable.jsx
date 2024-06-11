@@ -57,7 +57,7 @@ const ReclamationTable = ({ reclamations }) => {
                   <td className="px-12 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{formatDate(reclamation?.created_at)}</td>
                   <td className="px-4 py-4 text-base whitespace-nowrap">
                     <div className="flex items-center gap-x-6">
-                      <Link to={`/reclamations/update/${reclamation?.id}`} className="bg-primary text-white  py-1 px-4 rounded m-3">
+                      <Link to={`/reclamations/${reclamation?.id}`} className="bg-primary text-white  py-1 px-4 rounded m-3">
                         <div className="flex  items-center gap-x-1.5">
                           <MdOutlineMarkAsUnread size={19} /> Read
                         </div>

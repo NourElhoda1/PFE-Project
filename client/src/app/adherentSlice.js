@@ -20,7 +20,17 @@ const adherentSlice = createSlice({
         number: adherent.number,
         country: adherent.country,
         city: adherent.city,
-        postal_code: adherent.postal_code
+        last_login: adherent.last_login,
+        profile_pic: adherent.profile_pic,
+        careerStatus: adherent.careerStatus,
+        about: adherent.about,
+        resume: adherent.resume,
+        education: adherent.education,
+        experiences: adherent.experiences,
+        skills: adherent.skills,
+        languages: adherent.languages,
+        projects: adherent.projects,
+        
       }));
       state.isLoading = false;
     },
@@ -49,6 +59,11 @@ const adherentSlice = createSlice({
         city: action.payload.city
       }
     },
+
+    updateAdherentInfo: (state, action) => {
+      const index = state.adherents.findIndex(x => x.id === action.payload.id);
+      state.adherents[index] = action.payload;
+    },
   },
 });
 
@@ -56,7 +71,8 @@ export const {
   getAllAdherents, 
   createAdherent,
   getAdherentById, 
-  updateAdherent 
+  updateAdherent ,
+  updateAdherentInfo
 } = adherentSlice.actions;
 export const isLoadingSelector = (state) => state.adherent.isLoading;
 export const adherentsSelector = (state) => state.adherent.adherents;

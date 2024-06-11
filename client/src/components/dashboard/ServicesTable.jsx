@@ -54,7 +54,7 @@ const ServicesTable = ({ services }) => {
                 <tr key={service?.id}>
                   <td className="px-8 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                     <div className="inline-flex items-center gap-x-3">
-                      <h2 className="text-base font-semibold text-gray-900">{service?.service_name}</h2>
+                      <h2 className="text-base whitespace-normal font-semibold text-gray-900">{service?.service_name}</h2>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-base font-medium text-gray-700 whitespace-nowrap">{service?.category_name}</td>

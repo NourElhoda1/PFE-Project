@@ -45,7 +45,7 @@ function UserProfile() {
               <div className="mt-2 p-4">
                 {activeTab === 'overview' && <UserOverview />}
                 {activeTab === 'edit' && <UserUpdateInfo handleTabClick={handleTabClick} />}
-                {activeTab === 'changePassword' && <ChangePassword />}
+                {activeTab === 'changePassword' && <ChangePassword handleTabClick={handleTabClick} />}
               </div>
             </div>
           </div>

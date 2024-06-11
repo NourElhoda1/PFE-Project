@@ -37,16 +37,16 @@ const sidebarData = [
     icon: <LiaClipboardListSolid />,
     path: "/services",
   },
-  {
-    title: "Orders",
-    icon: <FiPackage />,
-    path: "/orders",
-  },
-  {
-    title: "Reclamations",
-    icon: <FiInbox />,
-    path: "/reclamations",
-  },
+  // {
+  //   title: "Orders",
+  //   icon: <FiPackage />,
+  //   path: "/orders",
+  // },
+  // {
+  //   title: "Reclamations",
+  //   icon: <FiInbox />,
+  //   path: "/reclamations",
+  // },
 ];
 
 export default sidebarData;

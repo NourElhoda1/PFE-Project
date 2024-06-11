@@ -67,8 +67,10 @@ const adherentController = {
 
     //! Create a new adherent account
     adherentRegister: async (req, res) => {
-        const { first_name, last_name, email, password, number, country, city } = req.body;
-
+        const { 
+            first_name, last_name, email, password, number, country, city, profile_pic, 
+            careerStatus, about, resume, education, experiences, projects, skills, languages 
+        } = req.body;
         //* Check if there are any validation problems
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -94,7 +96,16 @@ const adherentController = {
                 password: hashedPassword,
                 number,
                 country,
-                city
+                city,
+                profile_pic,
+                careerStatus,
+                about,
+                resume,
+                education,
+                experiences,
+                projects,
+                skills,
+                languages
             });
             res.status(201).json({
                 message: 'Adherent created successfully',
@@ -136,7 +147,9 @@ const adherentController = {
     getAdherentById: async (req, res) => {
         const { id } = req.params;
         try {
-            const adherent = await adherentModel.findById(id);
+            const adherent = await adherentModel
+                .findOne({ _id: id })
+                .populate({ path: 'serviceId', select: 'service_name' })
             if (!adherent) {
                 return res.status(404).json({ message: 'Adherent not found' });
             }
@@ -165,7 +178,10 @@ const adherentController = {
 
     //! Update the adherent's data
     updateAdherent: async (req, res) => {
-        const { first_name, last_name, email, number, country, city, valid_account, active } = req.body;
+        const { 
+            first_name, last_name, email, number, country, city, valid_account, active, profile_pic, 
+            careerStatus, about, resume, education, experiences, projects, skills, languages 
+        } = req.body;
         const { id } = req.params;
 
         //* Check if there are any validation problems
@@ -183,7 +199,16 @@ const adherentController = {
                 country,
                 city,
                 valid_account,
-                active
+                active,
+                profile_pic,
+                careerStatus,
+                about,
+                resume,
+                education,
+                experiences,
+                projects,
+                skills,
+                languages
             }, { new: true });
             if (!updatedAdherent) {
                 return res.status(404).json({ message: 'Adherent not found' });
@@ -213,8 +238,62 @@ const adherentController = {
     },
 
     //! Adherent profile
-    adherentProfile: async (req, res) => {
-        const id = req.adherent._id;
+    // adherentProfile: async (req, res) => {
+    //     const id = req.adherent?._id
+    //     const adherent = await adherentModel.findById(id) ;
+
+    //     if ( adherent ) {
+    //         res.status(200).json(user) ;
+    //     }
+    //     else {
+    //         res.status(400).json('oops !') ;
+    //     }
+    // } ,
+    adherentProfile: async (req, res, next) => {
+        try {
+            if(!req.adherent) {
+                throw new Error('Adherent not set in response object.');
+            }
+            const adherent = req.adherent;
+            // const name = `${adherent.first_name} ${adherent.last_name}`;
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    adherent,
+                },
+            });
+            console.log(adherent)
+        } catch (error) {
+            console.error('Error in adherentProfile:', error.message);
+            next(error);
+        }
+    },
+    
+
+    // adherentProfile: async (req, res, next) => {
+    //     try{
+    //         const adherent = req.cookies.adherent;
+    //         res.status(200).json(adherent);
+
+    //         if (!adherent) {
+    //             return res.status(401).json({ 
+    //                 status: 'error',
+    //                 message: 'adherent is not Unauthorized',
+    //              });
+    //         }
+
+    //         res.status(200).json({ 
+    //              status: 'success',
+    //              message: 'adherent is Authorized',
+    //             });
+    //     }catch(error){
+    //         next(error);
+    //     }
+    // } ,
+
+    //! Get an adherent's profile by ID
+    getAdherentProfileById: async (req, res) => {
+        const { id } = req.params;
         try {
             const adherent = await adherentModel.findById(id);
             if (!adherent) {
@@ -227,43 +306,82 @@ const adherentController = {
         }
     },
 
+
     //! Update profile info
-    adherentCanUpdate: async (req, res) => {
-        const id = req.adherent._id;
-
-        //* Check if there are any validation problems
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
-        const { first_name, last_name, email, password, number, country, city } = req.body;
-
-        try {
-            const adherent = await adherentModel.findById(id);
-            if (!adherent) {
-                return res.status(404).json({ message: 'Adherent not found' });
+        // Update profile info
+        adherentCanUpdateProfile : async (req, res) => {
+            try {
+                const id = req.adherent._id;
+        
+                // Check for validation errors
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    return res.status(400).json({ errors: errors.array() });
+                }
+        
+                const { 
+                    first_name, last_name, email, number, country, city, profile_pic, 
+                    careerStatus, about, resume, education, experiences, projects, skills, languages 
+                } = req.body;
+        
+                const adherent = await adherentModel.findById(id);
+                if (!adherent) {
+                    return res.status(404).json({ message: 'Adherent not found' });
+                }
+        
+                adherent.first_name = first_name;
+                adherent.last_name = last_name;
+                adherent.email = email;
+                adherent.number = number;
+                adherent.country = country;
+                adherent.city = city;
+                adherent.profile_pic = profile_pic;
+                adherent.careerStatus = careerStatus;
+                adherent.about = about;
+                adherent.resume = resume;
+                adherent.education = education;
+                adherent.experiences = experiences;
+                adherent.projects = projects;
+                adherent.skills = skills;
+                adherent.languages = languages;
+        
+                await adherent.save();
+                res.status(200).json({ message: 'Profile updated successfully', adherent });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Internal server error' });
             }
+        },
 
-            if (password) {
-                const salt = await bcrypt.genSalt(10);
-                adherent.password = await bcrypt.hash(password, salt);
-            }
+            //! Update password
+            adherentCanUpdatePassword : async (req, res) => {
+                const id = req.adherent._id;
 
-            adherent.first_name = first_name;
-            adherent.last_name = last_name;
-            adherent.email = email;
-            adherent.number = number;
-            adherent.country = country;
-            adherent.city = city;
+                //* Check if there are any validation problems
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    return res.status(400).json({ errors: errors.array() });
+                }
 
-            await adherent.save();
-            res.status(200).json({ message: 'Profile updated successfully', adherent });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Internal server error' });
-        }
-    },
+                const { password } = req.body;
+
+                try {
+                    const adherent = await adherentModel.findById(id);
+                    if (!adherent) {
+                        return res.status(404).json({ message: 'Adherent not found' });
+                    }
+
+                    const salt = await bcrypt.genSalt(10);
+                    adherent.password = await bcrypt.hash(password, salt);
+
+                    await adherent.save();
+                    res.status(200).json({ message: 'Password updated successfully', adherent });
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).json({ message: 'Internal server error' });
+                }
+            },
+
 
 }
 

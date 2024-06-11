@@ -3,26 +3,67 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import login1 from "../../assets/login1.png";
+import AuthAxios from "../../helpers/request";
 
 function AdherentLogin() {
-  
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const login = async (e) => {
     e.preventDefault();
-
     try {
+      console.log("Attempting to log in...");
       const res = await axios.post("http://localhost:8000/v1/adherents/login", { email, password });
-      Cookies.set("currentUser", JSON.stringify(res.data));
+      console.log("Login response:", res.data);
+
+      const token = res.data.token;
+      if (!token) {
+        throw new Error("No token received");
+      }
+
+      // Save token in cookies
+      Cookies.set("token", token);
+
+      // Fetch profile with the token
+      await fetchProfile(token);
+
       navigate("/");
     } catch (err) {
-      setErrors(err.response.data);
+      console.error("Error during login:", err);
+      setErrors(err.response?.data || { general: err.message });
     }
   };
+
+  const fetchProfile = async (token) => {
+    try {
+        console.log("Fetching profile...");
+        const profileResponse = await AuthAxios.get("http://localhost:8000/v1/adherent/profile", {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        console.log("Profile response:", profileResponse.data);
+
+        // Adjust extraction based on the actual response structure
+        const profileData = profileResponse.data?.data || profileResponse.data;
+        console.log("Extracted profile data:", profileData);
+
+        // Since profile data is nested within 'adherent', access '_id' from there
+        const adherentData = profileData?.adherent;
+
+        if (!adherentData || !adherentData._id) {
+            console.error("Profile data is missing _id:", adherentData);
+            throw new Error("Profile data does not contain _id");
+        }
+
+        // Save adherent data in cookies
+        Cookies.set("profile", JSON.stringify(adherentData));
+    } catch (err) {
+        console.error("Error fetching profile:", err);
+        throw err;
+    }
+};
 
   return (
     <div className="flex flex-col lg:flex-row h-screen">
@@ -30,7 +71,7 @@ function AdherentLogin() {
         <img src={login1} alt="Left side" className="w-full h-full" />
       </div>
       <div className="flex items-center justify-center w-full lg:w-1/2 bg-white p-6 sm:p-10">
-        <div className="w-full max-w-md p-6 ">
+        <div className="w-full max-w-md p-6">
           <h1 className="text-3xl mb-2 font-bold text-green-600">Welcome Back!</h1>
           <p className="mb-4 text-green-550 text-2xl font-semibold">Let's Achieve More Together</p>
           <form onSubmit={login} className="mt-8 space-y-4">
@@ -60,7 +101,6 @@ function AdherentLogin() {
                 {errors.password && <span className="text-red-500">{errors.password}</span>}
               </div>
             </div>
-
             <div className="flex justify-end mt-4 space-x-2">
               <button
                 type="submit"

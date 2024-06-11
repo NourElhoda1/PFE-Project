@@ -97,13 +97,12 @@ userRouter.put('/user/profile/update/information'
     .notEmpty()
     .withMessage("the email is required")
     .isEmail()
-    .withMessage("please enter a valid email"),
-  body("password")
-    .trim()
-    .notEmpty()
-    .withMessage("the password is required")
+    .withMessage("please enter a valid email")
  ] ,
  userController.updateProfileInfo) ;
+
+//! Update password
+userRouter.put('/user/profile/update/password' , authUserVerification , userController.updatePassword) ;
 
 //! Update the user's data 
 userRouter.put('/users/:id'  , userController.updateUser) ;

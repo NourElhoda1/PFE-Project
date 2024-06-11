@@ -3,20 +3,20 @@ import Sidebar from '../../layout/Sidebar';
 import DashboardStats from '../../components/dashboard/DashboardStats';
 import BarChart from '../../components/dashboard/chart/BarChart';
 import LineChart from '../../components/dashboard/chart/LineChart';
-import OrdersTable from '../../components/dashboard/OrdersTable';
+import ServicesTable from '../../components/dashboard/ServicesTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
-  getAllOrders,
+  servicesSelector,
   isLoadingSelector,
-  ordersSelector
-} from '../../app/orderSlice';
+  getAllServices
+} from '../../app/serviceSlice';
 import AuthAxios from '../../helpers/request';
 
 const Dashboard = () => {
 
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingSelector);
-  const orders = useSelector(ordersSelector);
+  const services = useSelector(servicesSelector);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -24,14 +24,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await AuthAxios.get(`http://localhost:8000/v1/orders?page=${currentPage}`);
+        const response = await AuthAxios.get(`http://localhost:8000/v1/services?page=${currentPage}`);
         if (!response.data) {
-          console.log("Error fetching orders");
+          console.log("Error fetching services");
         } 
         console.log(response.data);
-        dispatch(getAllOrders(response.data.docs));
+        dispatch(getAllServices(response.data.docs));
         console.log(isLoading);
-        console.log(orders);
+        console.log(services);
       } catch (err) {
         console.log(err);
       } 
@@ -62,36 +62,34 @@ const Dashboard = () => {
               <div className="flex justify-around mt-4">
                 <div className="text-center">
                   <p className="text-sm text-gray-500">Adherents</p>
-                  <p className="text-lg font-semibold">200</p>
+                  <p className="text-lg font-semibold">30</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm text-gray-500">Services</p>
-                  <p className="text-lg font-semibold">355</p>
+                  <p className="text-lg font-semibold">40</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm text-gray-500">Orders</p>
-                  <p className="text-lg font-semibold">159</p>
+                 
                 </div>
                 <div className="text-center">
-                  <p className="text-sm text-gray-500">Reclamations</p>
-                  <p className="text-lg font-semibold">1</p>
+                
                 </div>
               </div>
             </div>
 
             <div className="flex-1 bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-xl font-semibold mb-4">Orders Overview</h2>
+              <h2 className="text-xl font-semibold mb-4">visitor Overview</h2>
               <p className="mb-4 text-gray-600"><span className="text-green-500">4% more</span> in 2024</p>
               <LineChart />
             </div>
           </div>
 
           <div className="flex flex-col">
-          <h2 className="text-2xl font-semibold mt-6 pr-20">Orders</h2>
+          <h2 className="text-2xl font-semibold mt-6 pr-20">Services</h2>
           {!isLoading ? (
-            <div className="flex flex-col mt-6 pr-20">
-              <OrdersTable 
-                orders={orders}
+              <div className="flex flex-col mt-6 pr-20">
+              <ServicesTable
+                services={services}
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}
               />

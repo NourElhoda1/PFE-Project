@@ -6,7 +6,7 @@ const Stats = [
 
   {
     title: "Today's Adherents",
-    amount: "200",
+    amount: "30",
     change: "+3%",
     changeType: "positive",
     icon: <TbUser size={27}/>,
@@ -29,21 +29,13 @@ const Stats = [
 
   {
     title: "Services",
-    amount: "+355",
+    amount: "+40",
     change: "+2%",
     changeType: "positive",
     icon: <TbUser size={27}/>,
     path : "/services"
   },
 
-  {
-    title: "Orders",
-    amount: "+159",
-    change: "+2%",
-    changeType: "positive",
-    icon: <TbUser size={27}/>,
-    path : "/orders"
-  },
 ];
 
 export default Stats;
