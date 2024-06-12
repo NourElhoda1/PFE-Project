@@ -353,6 +353,145 @@ const adherentController = {
             }
         },
 
+
+        // Update about
+        adherentCanUpdateAbout : async (req, res) => {
+            try {
+                const id = req.adherent._id;
+        
+                // Check for validation errors
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    return res.status(400).json({ errors: errors.array() });
+                }
+        
+                const { 
+                    
+                    careerStatus, about, skills, languages 
+                } = req.body;
+        
+                const adherent = await adherentModel.findById(id);
+                if (!adherent) {
+                    return res.status(404).json({ message: 'Adherent not found' });
+                }
+        
+                
+                adherent.careerStatus = careerStatus;
+                adherent.about = about;
+                adherent.skills = skills;
+                adherent.languages = languages;
+        
+                await adherent.save();
+                res.status(200).json({ message: 'Profile updated successfully', adherent });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Internal server error' });
+            }
+        },
+
+
+        //Update Education
+        adherentCanUpdateEducation: async (req, res) => {
+            try {
+                const id = req.adherent._id;
+        
+                // Check for validation errors
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    return res.status(400).json({ errors: errors.array() });
+                }
+        
+                const { 
+                    educationList 
+                } = req.body;
+        
+                const adherent = await adherentModel.findById(id);
+                if (!adherent) {
+                    return res.status(404).json({ message: 'Adherent not found' });
+                }
+        
+                adherent.education = educationList ;
+                
+                await adherent.save();
+                res.status(200).json({ message: 'Profile updated successfully', adherent });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Internal server error' });
+            }
+        },
+
+         // Update profile experiences
+         adherentCanUpdateExperiences: async (req, res) => {
+            try {
+                const id = req.adherent._id;
+        
+                // Check for validation errors
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    return res.status(400).json({ errors: errors.array() });
+                }
+        
+                const { experiencesList } = req.body;
+        
+                // Logging the received data for debugging
+                console.log("Received experiences data:", experiencesList);
+                console.log("Data type:", typeof experiencesList);
+                console.log("Is Array:", Array.isArray(experiencesList));
+        
+                const adherent = await adherentModel.findById(id);
+                if (!adherent) {
+                    return res.status(404).json({ message: 'Adherent not found' });
+                }
+        
+                // Ensure experiencesList is an array of objects
+                if (Array.isArray(experiencesList) && experiencesList.every(item => typeof item === 'object')) {
+                    adherent.experiences = experiencesList;
+                } else {
+                    return res.status(400).json({ message: 'Invalid data format for experiences' });
+                }
+        
+                // Save updated adherent
+                await adherent.save();
+        
+                res.status(200).json({ message: 'Profile updated successfully', adherent });
+            } catch (error) {
+                console.error("Error updating experiences:", error);
+                res.status(500).json({ message: 'Internal server error' });
+            }
+        },
+
+         //Update Portfolio
+         adherentCanUpdatePortfolio: async (req, res) => {
+            try {
+                const id = req.adherent._id;
+        
+                // Check for validation errors
+                const errors = validationResult(req);
+                if (!errors.isEmpty()) {
+                    return res.status(400).json({ errors: errors.array() });
+                }
+        
+                const { 
+                    projectList 
+                } = req.body;
+        
+                const adherent = await adherentModel.findById(id);
+                if (!adherent) {
+                    return res.status(404).json({ message: 'Adherent not found' });
+                }
+        
+                adherent.projects = projectList ;
+                
+                await adherent.save();
+                res.status(200).json({ message: 'Profile updated successfully', adherent });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Internal server error' });
+            }
+        },
+        
+        
+
             //! Update password
             adherentCanUpdatePassword : async (req, res) => {
                 const id = req.adherent._id;

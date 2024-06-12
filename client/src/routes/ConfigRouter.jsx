@@ -81,7 +81,7 @@ const ConfigRouter = createBrowserRouter(
 
                 <Route path="orders" element={<Orders />} />
 
-                <Route path="reclamations" element={<Reclamations />} />
+                <Route path="/reclamations" element={<Reclamations />} />
                 <Route path="/reclamations/:id" element={<ReclamationsDetails />}/>
 
                 <Route path="/profile" element={<UserProfile />} />
@@ -106,7 +106,7 @@ const ConfigRouter = createBrowserRouter(
                 <Route path='/adherents/profile' element={<AdherentProfile />} />
                 <Route path='/chat' element={<ChatApp />} />
                 <Route path='/myservices/:adherentId' element={<AdherentServices />} />
-                <Route path='settings' element={<AdherentSettings />} />
+                <Route path='/settings' element={<AdherentSettings />} />
                 {/* <Route path='/reclamation' element={<AdherentReclamation />} />
                 <Route path='/reclamation/add' element={<AddReclamation />} /> */}
             </Route>

@@ -1,29 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import AuthAxios from "../../../helpers/request";
+import { updateAdherentAbout } from "../../../app/adherentSlice";
 
-function AboutMe({ onSave }) {
+function AboutMe() {
   const [profile, setProfile] = useState({
-    careerStatus: { status: "" }, // Champ pour le statut de carrière
-    about: "", // Champ pour la description
-    skills: [], // Tableau pour les compétences
-    languages: [], // Tableau pour les langues
+    careerStatus: "",
+    about: "",
+    skills: [],
+    languages: [],
   });
 
-  // Options pour les langues et niveaux de compétence
-  const languageOptions = ["English", "French", "Spanish", "German", "Chinese", "Japanese", "Italien"];
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const profileData = Cookies.get("profile");
+    console.log("Profile data from cookie:", profileData);
+    if (profileData) {
+      try {
+        const parsedProfile = JSON.parse(profileData);
+        if (parsedProfile) {
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            careerStatus: parsedProfile.careerStatus || "",
+            about: parsedProfile.about || "",
+            skills: Array.isArray(parsedProfile.skills) ? parsedProfile.skills : [],
+            languages: Array.isArray(parsedProfile.languages) ? parsedProfile.languages : [],
+          }));
+          console.log("Parsed profile data:", parsedProfile);
+        }
+      } catch (error) {
+        console.error("Error parsing profile data:", error);
+      }
+    }
+    setLoading(false);
+  }, []);
+
+
+  const languageOptions = ["English", "French", "Spanish", "German", "Chinese", "Japanese", "Italian"];
   const proficiencyOptions = ["Beginner", "Intermediate", "Advanced"];
 
-  // Gérer les changements d'input pour les informations de base
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfile({ ...profile, [name]: value });
   };
 
-  // Gérer les changements dans le statut de carrière
-  const handleCareerStatusChange = (e) => {
-    setProfile({ ...profile, careerStatus: { status: e.target.value } });
-  };
-
-  // Gérer les changements dans les langues
   const handleLanguageChange = (index, event) => {
     const { name, value } = event.target;
     const updatedLanguages = [...profile.languages];
@@ -31,7 +55,6 @@ function AboutMe({ onSave }) {
     setProfile({ ...profile, languages: updatedLanguages });
   };
 
-  // Ajouter une nouvelle langue
   const addLanguage = () => {
     setProfile({
       ...profile,
@@ -39,21 +62,18 @@ function AboutMe({ onSave }) {
     });
   };
 
-  // Supprimer une langue
   const removeLanguage = (index) => {
     const updatedLanguages = [...profile.languages];
     updatedLanguages.splice(index, 1);
     setProfile({ ...profile, languages: updatedLanguages });
   };
 
-  // Gérer les changements dans les compétences
   const handleSkillsChange = (e, index) => {
     const updatedSkills = [...profile.skills];
     updatedSkills[index] = e.target.value;
     setProfile({ ...profile, skills: updatedSkills });
   };
 
-  // Ajouter une nouvelle compétence
   const addSkill = () => {
     setProfile({
       ...profile,
@@ -61,23 +81,54 @@ function AboutMe({ onSave }) {
     });
   };
 
-  // Supprimer une compétence
   const removeSkill = (index) => {
     const updatedSkills = [...profile.skills];
     updatedSkills.splice(index, 1);
     setProfile({ ...profile, skills: updatedSkills });
   };
 
-  // Gérer la soumission du formulaire
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Gestion de la soumission du formulaire
-    onSave(profile); // Appel de la fonction onSave avec le profil en argument
+
+    const token = Cookies.get("token");
+
+    try {
+      const { careerStatus, about, skills, languages } = profile;
+      const response = await AuthAxios.put(
+        "http://localhost:8000/v1/adherent/profile/update/about",
+        { careerStatus, about, skills, languages },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    
+      const updatedProfile = response.data;
+      setProfile(updatedProfile);
+      Cookies.set("profile", JSON.stringify(updatedProfile));
+      dispatch(updateAdherentAbout(updatedProfile));
+      setMessage("Profile updated successfully!");
+    
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      if (error.response && error.response.status === 403) {
+        setMessage("You are not authorized to update this profile.");
+      } else {
+        setMessage("Failed to update profile. Please try again.");
+      }
+    }
+    
   };
+
+  if (loading) {
+    return <div>Loading profile...</div>;
+  }
 
   return (
     <div className="container mx-auto">
-      <div className="bg-white p-4 md:p-8 ">
+      <div className="bg-white p-4 md:p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-start gap-4">
             <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -87,9 +138,9 @@ function AboutMe({ onSave }) {
                 </label>
                 <input
                   type="text"
-                  name="status"
-                  value={profile.careerStatus.status}
-                  onChange={handleCareerStatusChange}
+                  name="careerStatus"
+                  value={profile.careerStatus}
+                  onChange={handleInputChange}
                   placeholder="Enter your career status"
                   className="mt-1 p-2 block w-full border rounded-lg"
                 />
@@ -109,7 +160,6 @@ function AboutMe({ onSave }) {
               </div>
             </div>
           </div>
-          {/* Section pour les compétences */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Skills
@@ -140,7 +190,6 @@ function AboutMe({ onSave }) {
               Add Skill
             </button>
           </div>
-          {/* Section pour ajouter des langues */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Languages
@@ -199,6 +248,11 @@ function AboutMe({ onSave }) {
             </button>
           </div>
         </form>
+        {message && (
+          <div className="mt-4 p-2 bg-red-100 text-red-700 border border-red-400 rounded">
+            {message}
+          </div>
+        )}
       </div>
     </div>
   );

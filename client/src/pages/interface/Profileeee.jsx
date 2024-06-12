@@ -80,10 +80,6 @@ function Profileeee() {
               <h3 className="text-xl font-semibold">About</h3>
               <p className="mt-2">{profile.about}</p>
             </div>
-            <div className="col-span-1 bg-white p-4 rounded-lg shadow-lg border mb-4">
-              <h3 className="text-xl font-semibold">Resume</h3>
-              <a href={profile.resume} target="_blank" rel="noopener noreferrer" className="text-blue-500 mt-2">View Resume</a>
-            </div>
             <div className="col-span-1 bg-white p-4 rounded-lg border mb-4">
               <h3 className="text-xl font-semibold">Skills</h3>
               <div className="flex flex-wrap mt-2">
