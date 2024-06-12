@@ -3,6 +3,7 @@ import Navbar from "../../layout/Navbar/Navbar";
 import Personnel from "../../components/interface/settings/Personnel";
 import AboutMe from "../../components/interface/settings/AboutMe";
 import Education from "../../components/interface/settings/Education";
+import Projects from "../../components/interface/settings/Projects";
 import Professionel from "../../components/interface/settings/Professionel";
 
 function AdherentSettings() {
@@ -38,16 +39,23 @@ function AdherentSettings() {
               Education
             </button>
             <button
+              className={`px-4 py-2 text-gray-600 focus:outline-none ${activeTab === 'Projects' && 'border-b-2 border-secondary'}`}
+              onClick={() => handleTabClick('Projects')}
+            >
+              Portfolio  
+            </button>
+            <button
               className={`px-4 py-2 text-gray-600 focus:outline-none ${activeTab === 'professionel' && 'border-b-2 border-secondary'}`}
               onClick={() => handleTabClick('professionel')}
             >
-              Informations Professionel
+              Experience  
             </button>
           </div>
           <div className="p-4">
             {activeTab === 'personnel' && <Personnel />}
             {activeTab === 'aboutme' && <AboutMe />}
             {activeTab === 'education' && <Education />}
+            {activeTab === 'Projects' && < Projects/>}
             {activeTab === 'professionel' && <Professionel />}
           </div>
         </div>

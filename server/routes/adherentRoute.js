@@ -76,6 +76,18 @@ adherentRouter.put("/adherents/:id"  , adherentController.updateAdherent);
 //! Update profile information
 adherentRouter.put('/adherent/profile/update/information', adherentVerification , adherentController.adherentCanUpdateProfile) ;
 
+//! Update profile about me
+adherentRouter.put('/adherent/profile/update/about', adherentVerification , adherentController.adherentCanUpdateAbout) ;
+
+//! Update profile education
+adherentRouter.put('/adherent/profile/update/education', adherentVerification , adherentController.adherentCanUpdateEducation) ;
+
+//! Update profile experience
+adherentRouter.put('/adherent/profile/update/experience', adherentVerification , adherentController.adherentCanUpdateExperiences) ;
+
+//! Update profile project
+adherentRouter.put('/adherent/profile/update/portfolio', adherentVerification , adherentController.adherentCanUpdatePortfolio) ;
+
 //! Update profile password
 adherentRouter.put('/adherent/profile/update/password' , adherentController.adherentCanUpdatePassword) ;
 

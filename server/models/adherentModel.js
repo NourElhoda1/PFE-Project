@@ -1,42 +1,43 @@
 const mongoose = require('mongoose') ;
 const mongoosePagination = require('mongoose-paginate-v2') ;
 
+const experienceSchema = new mongoose.Schema({
+    company: String,
+    role: String,
+    type: String,
+    startDate: Date,
+    endDate: Date
+}, { _id: false }); // Use `_id: false` if you don't want each subdocument to have an `_id` field
+
+
 const adherentSchema = new mongoose.Schema({
     first_name : {
         type : String ,
-        required : [true , 'the first name is required'] ,
     } ,
 
     last_name : {
         type : String ,
-        required : [true , 'the last name is required'] ,
     } ,
 
     email : {
         type : String ,
         unique : true ,
-        required : [true , 'the email is required'] ,
     } ,
 
     password : {
         type : String ,
-        required : [true , 'the password is required'] ,
     } ,
 
     number : {
         type : String ,
-        unique : true ,
-        required : [true , 'the number is required'] ,
     } ,
 
     country : {
         type : String ,
-        required : [true , 'the country is required'] ,
     } ,
 
     city : {
         type : String ,
-        required : [true , 'the city is required'] ,
     } ,
 
     last_login : {
@@ -74,16 +75,11 @@ const adherentSchema = new mongoose.Schema({
     },
 
     careerStatus: {
-        status: String,
+        type: String,
     },
 
     about: {
         type: String,
-    },
-
-    resume: {
-        fileName: String,
-        filePath: String,
     },
 
     education: [{
@@ -94,13 +90,7 @@ const adherentSchema = new mongoose.Schema({
         endDate: Date,
     }],
 
-    experiences: [{
-        company: String,
-        role: String,
-        type: String,
-        startDate: Date,
-        endDate: Date,
-    }],
+    experiences: [experienceSchema],
 
     skills: [String],
 
@@ -111,7 +101,8 @@ const adherentSchema = new mongoose.Schema({
 
     projects: [{
         name: String,
-        description: String
+        description: String,
+        pic : Array,
     }],
 
 

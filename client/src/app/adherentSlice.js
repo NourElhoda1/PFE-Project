@@ -64,6 +64,28 @@ const adherentSlice = createSlice({
       const index = state.adherents.findIndex(x => x.id === action.payload.id);
       state.adherents[index] = action.payload;
     },
+
+    updateAdherentAbout: (state, action) => {
+      const index = state.adherents.findIndex(x => x.id === action.payload.id);
+      state.adherents[index] = action.payload;
+    },
+
+    updateAdherentEducation: (state, action) => {
+      const index = state.adherents.findIndex(x => x.id === action.payload.id);
+      state.adherents[index] = action.payload;
+    },
+
+    updateAdherentExperience: (state, action) => {
+      const index = state.adherents.findIndex(x => x.id === action.payload.id);
+      state.adherents[index] = action.payload;
+    },
+
+    updateAdherentPortfolio: (state, action) => {
+      const index = state.adherents.findIndex(x => x.id === action.payload.id);
+      state.adherents[index] = action.payload;
+    },
+
+
   },
 });
 
@@ -72,7 +94,11 @@ export const {
   createAdherent,
   getAdherentById, 
   updateAdherent ,
-  updateAdherentInfo
+  updateAdherentInfo,
+  updateAdherentAbout,
+  updateAdherentEducation,
+  updateAdherentExperience,
+  updateAdherentPortfolio
 } = adherentSlice.actions;
 export const isLoadingSelector = (state) => state.adherent.isLoading;
 export const adherentsSelector = (state) => state.adherent.adherents;
