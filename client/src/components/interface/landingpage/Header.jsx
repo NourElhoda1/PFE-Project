@@ -9,8 +9,8 @@ import avatar5 from '../../../assets/landingpage/header4.png';
 const Header = () => {
   return (
     <header className=" py-8 px-8">
-      <h2 className="text-7xl text-green-550 font-bold mb-4 pl-[16%]">Working with U: <br /></h2>
-      <h3 className='text-6xl  font-bold mb-6 pl-[26%]' >
+      <h2 className="text-6xl text-green-550 font-bold mb-4 pl-[10%]">Working with U: <br /></h2>
+      <h3 className='text-4xl  font-bold mb-6 pl-[20%]' >
       <span className="text-green-800">Collaborate.</span> <span className="text-green-550 ">Create.</span> <span className="text-green-600">Grow.</span>
       </h3>
       <p className="mt-4 text-dark text-2xl font-medium text-center">

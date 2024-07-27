@@ -34,6 +34,8 @@ import ServiceDetailsInterface from '../pages/interface/ServiceDetailsInterface'
 import AdherentProfile from '../pages/interface/AdherentProfile';
 import AdherentServices from '../pages/interface/AdherentServices';
 import AdherentSettings from '../pages/interface/AdherentSettings';
+import ServicesCreate from '../pages/interface/ServicesCreate';
+import ForgetPassword from '../pages/interface/ForgetPassword'
 // import AdherentReclamation from '../pages/interface/AdherentReclamation';
 // import AddReclamation from '../pages/interface/AddReclamation';
 
@@ -96,8 +98,7 @@ const ConfigRouter = createBrowserRouter(
                 <Route path='/categoriesliste' element={<CategoriesListe />} />
                 <Route path='/categoriesliste/:categoryId?' element={<CategoriesListe />} />
                 <Route path="/services/detail/:id" element={<ServiceDetailsInterface />} />
-                <Route path="/profile/:id" component={<AdherentProfile />} />
-                
+                <Route path='/service/create' element={<ServicesCreate />}/>
                 
             </Route>
 
@@ -107,6 +108,7 @@ const ConfigRouter = createBrowserRouter(
                 <Route path='/chat' element={<ChatApp />} />
                 <Route path='/myservices/:adherentId' element={<AdherentServices />} />
                 <Route path='/settings' element={<AdherentSettings />} />
+                <Route path='/forgetpassword' element={<ForgetPassword />}/>
                 {/* <Route path='/reclamation' element={<AdherentReclamation />} />
                 <Route path='/reclamation/add' element={<AddReclamation />} /> */}
             </Route>

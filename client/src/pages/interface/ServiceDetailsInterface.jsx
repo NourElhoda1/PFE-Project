@@ -6,6 +6,8 @@ import AuthAxios from '../../helpers/request';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import uml from '../../assets/uml.webp';
+import { Link } from 'react-router-dom';
 
 const ServiceDetails = () => {
   const { id: serviceId } = useParams(); // Destructure the id param and rename it to serviceId
@@ -45,13 +47,9 @@ const ServiceDetails = () => {
         <h1 className="text-3xl font-bold mb-4">{serviceDetails.service_name}</h1>
         <div className="flex mb-6">
           <div className="w-1/2 flex flex-wrap">
-            {serviceDetails.images && serviceDetails.images.length > 0 ? (
-              serviceDetails.images.map((image, index) => (
-                <img key={index} className="w-1/2 rounded-lg p-2" src={image} alt={`Service Image ${index + 1}`} />
-              ))
-            ) : (
-              <img className="w-1/2 rounded-lg" src="/path-to-your-service-image.jpg" alt="Service" />
-            )}
+            
+              <img className="w-1/2 rounded-lg" src={uml} alt="Service" />
+         
           </div>
           <div className="w-1/2 p-6">
             <h2 className="text-2xl font-bold mb-4">{serviceDetails.sellerId.first_name} {serviceDetails.sellerId.last_name}</h2>
@@ -61,7 +59,8 @@ const ServiceDetails = () => {
               <li>Subcategory: {serviceDetails.subcategoryId.subcategory_name}</li>
             </ul>
             <p className="text-lg font-semibold mb-2">{moment(serviceDetails.created_at).format('MMMM DD, YYYY')}</p>
-            <button className="bg-green-500 text-white px-4 py-2 rounded mb-2">Continue ({serviceDetails.price} MD)</button>
+            <p className="text-lg font-semibold mb-2">({serviceDetails.price} MD)</p>
+            <Link to="/chat" className="bg-green-500  text-white px-4 py-2 rounded mb-2">Chat </Link>
           </div>
         </div>
         <div className="bg-gray-100 p-6 rounded-lg mb-6">

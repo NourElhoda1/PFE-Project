@@ -5,6 +5,7 @@ import AboutMe from "../../components/interface/settings/AboutMe";
 import Education from "../../components/interface/settings/Education";
 import Projects from "../../components/interface/settings/Projects";
 import Professionel from "../../components/interface/settings/Professionel";
+import Password from "../../components/interface/settings/Password";
 
 function AdherentSettings() {
   const [activeTab, setActiveTab] = useState('personnel');
@@ -50,6 +51,12 @@ function AdherentSettings() {
             >
               Experience  
             </button>
+            <button
+              className={`px-4 py-2 text-gray-600 focus:outline-none ${activeTab === 'password' && 'border-b-2 border-secondary'}`}
+              onClick={() => handleTabClick('password')}
+            >
+              Change Password
+            </button>
           </div>
           <div className="p-4">
             {activeTab === 'personnel' && <Personnel />}
@@ -57,6 +64,8 @@ function AdherentSettings() {
             {activeTab === 'education' && <Education />}
             {activeTab === 'Projects' && < Projects/>}
             {activeTab === 'professionel' && <Professionel />}
+            {activeTab === 'password' && <Password />}
+
           </div>
         </div>
       </div>

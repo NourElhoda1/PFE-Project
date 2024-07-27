@@ -113,8 +113,8 @@ const Navbar = () => {
                   <div className="absolute top-full mt-2 right-0 bg-white border rounded-lg border-gray-200 shadow-lg p-4 w-48">
                     <Link to="/profileeee" className="block rounded-md hover:bg-gray-200 p-2 ">Profile</Link>
                     <Link to="/settings"  className='block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300'>Settings</Link>
-                    <Link to="/" className="block rounded-md hover:bg-gray-200 p-2">Post a Service</Link>
-                    <Link to="/myservices/:adherentId" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">My Services</Link>
+                    <Link to="/service/create" className="block rounded-md hover:bg-gray-200 p-2">Post a Service</Link>
+                    {/* <Link to="/myservices/:adherentId" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">My Services</Link> */}
                     {/* <Link to="/reclamation" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Reclamation</Link> */}
                     <button 
                       onClick={handleLogout} 
@@ -177,8 +177,8 @@ const Navbar = () => {
                     <div className="mt-2 w-full bg-white border rounded-lg border-gray-200 shadow-lg p-4">
                       <Link to="/profileeee" className="block rounded-md hover:bg-gray-200 p-2 ">Profile</Link>
                       <Link to="/settings"  className='block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300'>Settings</Link>
-                      <Link to="/" className="block rounded-md hover:bg-gray-200 p-2">Post a Service</Link>
-                      <Link to="/myservices/:adherentId" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">My Services</Link>
+                      <Link to="/service/create" className="block rounded-md hover:bg-gray-200 p-2">Post a Service</Link>
+                      {/* <Link to="/myservices/:adherentId" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">My Services</Link> */}
                       {/* <Link to="/reclamation" className="block rounded-md hover:bg-gray-200 p-2 border-b border-gray-300">Reclamation</Link> */}
                       <button 
                         onClick={handleLogout} 
