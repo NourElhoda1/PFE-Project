@@ -101,7 +101,10 @@ function AdherentLogin() {
                 {errors.password && <span className="text-red-500">{errors.password}</span>}
               </div>
             </div>
-            <div className="flex justify-end mt-4 space-x-2">
+            <div className="mb-2">
+            <p><Link to="/register" className="text-green-600 hover:text-green-800 transition-colors duration-300">Forget password? </Link></p>
+          </div>
+            <div className="flex justify-end mt-2 space-x-2">
               <button
                 type="submit"
                 className="block w-full bg-green-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
@@ -111,6 +114,7 @@ function AdherentLogin() {
             </div>
             {errors.general && <span className="text-red-500">{errors.general}</span>}
           </form>
+
           <div className="text-center mb-2">
             <p>Don't have an account? <Link to="/register" className="text-green-600 hover:text-green-800 transition-colors duration-300">Register</Link></p>
           </div>

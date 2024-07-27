@@ -7,7 +7,6 @@ import ChatBox from '../../components/interface/chat/ChatBox';
 import { io } from 'socket.io-client';
 
 function ChatApp() {
-  
   const socket = useRef(null);
   const [user, setUser] = useState(null);
   const [chats, setChats] = useState([]);
@@ -19,9 +18,14 @@ function ChatApp() {
   useEffect(() => {
     const fetchUser = () => {
       try {
-        const userData = JSON.parse(Cookies.get("currentUser"));
-        setUser(userData);
-        console.log("User data:", userData);
+        const userData = Cookies.get("currentUser");
+        console.log("User data from cookies:", userData);
+        if (userData) {
+          const parsedUserData = JSON.parse(userData);
+          setUser(parsedUserData);
+        } else {
+          console.error("User data not found in cookies.");
+        }
       } catch (error) {
         console.error("Failed to parse user data from cookies", error);
       }
@@ -37,7 +41,7 @@ function ChatApp() {
           const { data } = await userChats(user.adherent._id);
           setChats(data);
         } catch (error) {
-          console.log(error);
+          console.error("Error fetching user chats:", error);
         }
       } else {
         console.error("User ID is missing or invalid.");
@@ -54,12 +58,12 @@ function ChatApp() {
       socket.current.on("get-users", (users) => {
         setOnlineUsers(users);
       });
-  
+
       socket.current.on("receive-message", (data) => {
         console.log("Message received: ", data);
         setReceivedMessage(data);
       });
-  
+
       return () => {
         socket.current.disconnect();
       };
@@ -67,14 +71,12 @@ function ChatApp() {
       console.error("User ID is missing or invalid.");
     }
   }, [user]);
-  
 
   useEffect(() => {
     if (sendMessage && socket.current) {
       socket.current.emit("send-message", sendMessage);
     }
   }, [sendMessage]);
-  
 
   const checkOnlineStatus = (chat) => {
     const chatMember = chat.members.find((member) => member !== user?.adherent?._id);
@@ -130,3 +132,45 @@ function ChatApp() {
 }
 
 export default ChatApp;
+
+
+
+// import React from 'react';
+
+
+// function ChatApp() {
+//   return (
+ 
+
+
+//     <div className=" bg-gray-800 text-white flex w-full">
+      
+//       <div className=" bg-black rounded-lg overflow-hidden">
+//         <div className="bg-black p-4 flex items-center">
+//           <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mr-4">
+//             {/* Placeholder for Profile Image */}
+//             <img src="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=" alt="Profile" className="rounded-full" />
+//           </div>
+//           <h2 className="text-lg">Aya Sabri</h2>
+//         </div>
+//         <div className="bg-white p-4 flex-1 h-96 overflow-y-auto">
+//           {/* Messages will go here */}
+//         </div>
+//         <div className="p-4    flex items-center">
+//           <input
+//             type="text"
+//             className="w-full bg-gray-800 text-white rounded-full px-4 py-2 focus:outline-none"
+//             placeholder="Send a message..."
+//           />
+//          <button className='border bg-green-500 text-white px-4 py-2 rounded-lg'>
+//                 Save
+//             </button>
+//         </div>
+//       </div>
+//     </div>
+  
+//   );
+// }
+
+// export default ChatApp;
+

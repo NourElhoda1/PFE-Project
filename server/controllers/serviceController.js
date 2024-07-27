@@ -4,6 +4,57 @@ const serviceModel = require('../models/serviceModel');
 
 const serviceController = {
     //! Create new service
+    // createService : async (req , res) => {
+
+    //     const{
+    //         service_name,
+    //         categoryId,
+    //         subcategoryId,
+    //         sellerId,
+    //         images,
+    //         price,
+    //         short_description,
+    //         long_description
+    //     } = req.body;
+
+    //     //* Check if there is an error in the Validation
+    //     const errors = validationResult(req);
+    //     if (!errors.isEmpty()) {
+    //         return res.status(400).json( errors );
+    //     }
+
+    //     try {
+    //         const service = await serviceModel.create({
+    //             service_name : service_name ,
+    //             categoryId : categoryId ,
+    //             subcategoryId : subcategoryId ,
+    //             sellerId : sellerId ,
+    //             images : images ,
+    //             price : price ,
+    //             short_description : short_description ,
+    //             long_description : long_description ,
+    //         });
+
+    //         const populatedService = await serviceModel
+    //         .findById(service._id)
+    //         .populate('categoryId')
+    //         .populate('subcategoryId')
+    //         .populate('sellerId')
+    //         .exec();
+
+    //         res.status(200).json({
+    //             message : 'The service has been created with success' ,
+    //             service : populatedService , 
+    //         });
+    //     }
+    //     catch ( error ) {
+    //         console.log('Something went wrong' , error);
+    //         res.status(500).json({ message: 'Something went wrong' });
+    //     }
+    // },
+
+
+    //! Create new service
     createService : async (req , res) => {
 
         const{

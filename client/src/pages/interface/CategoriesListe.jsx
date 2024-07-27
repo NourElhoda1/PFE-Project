@@ -143,7 +143,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <div className="container mx-auto pt-4 mb-10">
+      <div className="container mx-auto pt-4 mx-5 mb-10">
         <div className="flex gap-4 p-4 mb-12 w-[50%] bg-transparent border border-gray-500 outline-dark rounded-full">
           <IoSearch size={30} />
           <input
@@ -287,16 +287,15 @@ const Sidebar = ({
 
 const ServiceCard = ({ service }) => {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between md:h-80">
+    <div className="bg-white p-4 rounded-[0.5rem] shadow-md flex flex-col justify-between md:h-80">
       <div>
-        <div className="flex items-center mb-2">
-          <img src={service.profile_image} alt={service.service_name} className="w-12 h-12 rounded-full mr-4" />
+        <div className="flex items-center  mb-2">
           <div>
             <h2 className="font-bold text-xl">{service.service_name}</h2>
             <h3 className="text-gray-600">{service.first_name} {service.last_name}</h3>
           </div>
         </div>
-        <p className="text-gray-600 mb-1"><span className="font-semibold">Price:</span> {service.price}</p>
+        <p className="text-gray-600  mb-1"><span className="font-semibold">Price:</span> {service.price}</p>
         <p className="text-gray-600 mb-1"><span className="font-semibold">Category:</span> {service.category_name}</p>
         <p className="text-gray-600 mb-1"><span className="font-semibold">Subcategory:</span> {service.subcategory_name}</p>
         <p className="text-gray-600 mb-1"><span className="font-semibold">Short Description:</span> {service.short_description}</p>
